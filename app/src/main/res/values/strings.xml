@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">proyectoFinal</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="nombre">Nombre</string>
+    <string name="apellido">Apellido</string>
+    <string name="nacionalidad">Nacionalidad</string>
+    <string name="telefono">Telefono</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="home">Home</string>
+    <string name="restaurantes">Restaurantes</string>
+    <string name="lugares_turisticos">Lugares turisticos</string>
+    <string name="mi_perfil">Mi perfil</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="Home">Hello blank fragment</string>
+    <string name="profile">Profile</string>
+    <string name="restaurantesss">restaurantesss</string>
+    <string name="tours">Tours</string>
+    <string name="favoritos">Favoritos</string>
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="imgtour">imgTour</string>
+</resources>
