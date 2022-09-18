@@ -5,6 +5,8 @@
       <map>
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.132" />
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/drawable/btn_primary.xml" value="0.132" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/drawable/ic_baseline_arrow_downward_24.xml" value="0.103" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/drawable/ic_baseline_arrow_upward_24.xml" value="0.103" />
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/drawable/ic_baseline_lock_24.xml" value="0.121" />
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/drawable/ic_baseline_restaurant_24.xml" value="0.121" />
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/drawable/ic_launcher_background.xml" value="0.132" />
@@ -15,7 +17,7 @@
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/fragment_home.xml" value="0.10989583333333333" />
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/fragment_profile.xml" value="0.10989583333333333" />
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/fragment_restaurant.xml" value="0.10989583333333333" />
-        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/fragment_tour.xml" value="0.2" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/fragment_tour.xml" value="0.1" />
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/img_tour.xml" value="0.264" />
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/menu/botton_menu.xml" value="0.1" />
       </map>

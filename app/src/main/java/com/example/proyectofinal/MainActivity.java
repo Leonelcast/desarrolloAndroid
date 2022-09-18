@@ -21,9 +21,9 @@ public class MainActivity extends AppCompatActivity {
         replaceFragment(new HomeFragment());
         binding.bottomNavbar.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
-                case R.id.home:
+                /*case R.id.home:
                     replaceFragment(new HomeFragment());
-                    break;
+                    break;*/
                 case R.id.restaurant:
                     replaceFragment(new RestaurantFragment());
                     break;
