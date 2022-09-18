@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         com.example.proyectofinal.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        replaceFragment(new HomeFragment());
+        replaceFragment(new RestaurantFragment());
         binding.bottomNavbar.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
                 /*case R.id.home:

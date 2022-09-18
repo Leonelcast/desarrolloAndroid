@@ -37,11 +37,7 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> {
     public TourAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         this.context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(this.context);
-
-        // Inflate the custom layout
         View contactView = inflater.inflate(R.layout.img_tour, parent, false);
-
-        // Return a new holder instance
         ViewHolder viewHolder = new ViewHolder(contactView);
         return viewHolder;
     }
