@@ -17,6 +17,9 @@ import com.example.proyectofinal.models.Restaurante;
 import com.example.proyectofinal.retrofit.connection;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -147,22 +150,14 @@ public class RestaurantFragment extends Fragment {
 
     }
     public void nombreOrdenDes(View view) {
-
-        Call<List<Restaurante>> resCall = mRestauranteService.getNombreDes();
-
-        resCall.enqueue(new Callback<List<Restaurante>>() {
+        Collections.sort(mRestaurante, new Comparator<Restaurante>() {
             @Override
-            public void onResponse(Call<List<Restaurante>> call, Response<List<Restaurante>> response) {
-                restauranteAdapter.reloadData(response.body());
-                restauranteAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Restaurante>> call, Throwable t) {
-                System.out.print("first statement. ");
+            public int compare(Restaurante restaurante, Restaurante t1) {
+                return 0;
             }
         });
+
+
     }
     public void depOrdenDes(View view) {
 

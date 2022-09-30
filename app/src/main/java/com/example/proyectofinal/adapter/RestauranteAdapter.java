@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.proyectofinal.MainActivity;
 import com.example.proyectofinal.R;
+import com.example.proyectofinal.RestaurantDesActivity;
 import com.example.proyectofinal.models.Restaurante;
 
 import java.util.List;
@@ -48,6 +49,8 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
         tourDepartamentoTextView.setText(restaurante.departamento);
         TextView tourCalificacionTextView = holder.mCalificacion;
         tourCalificacionTextView.setText(restaurante.calificacion);
+        TextView urlTextView = holder.mURL;
+        urlTextView.setText(restaurante.img);
         ImageView tourImg = holder.mRestauranteImage;
         Glide.with(this.context).load(restaurante.img).into(tourImg);
     }
@@ -62,6 +65,7 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
         private TextView mNombre;
         private TextView mDepartamento;
         private TextView mCalificacion;
+        private TextView mURL;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -69,13 +73,18 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
             mNombre = (TextView) itemView.findViewById(R.id.nombre_res);
             mDepartamento = (TextView) itemView.findViewById(R.id.departamento_res);
             mCalificacion = (TextView) itemView.findViewById(R.id.calificacion_res);
+            mURL = (TextView) itemView.findViewById(R.id.url);
             itemView.setOnClickListener(this);
 
         }
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(view.getContext(), MainActivity.class);
+            Intent intent = new Intent(view.getContext(), RestaurantDesActivity.class);
+            intent.putExtra("nombre", mNombre.getText().toString());
+            intent.putExtra("departamento", mDepartamento.getText().toString());
+            intent.putExtra("califiacion", mCalificacion.getText().toString());
+            intent.putExtra("img", mURL.getText().toString());
             view.getContext().startActivity(intent);
         }
     }
