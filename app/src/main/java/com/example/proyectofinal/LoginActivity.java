@@ -2,7 +2,9 @@ package com.example.proyectofinal;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +27,8 @@ public class LoginActivity extends AppCompatActivity {
     private Button button;
     private EditText emailtxt, passtxt;
     private TextView signuptxt;
+    SharedPreferences sharedPreferences;
+
 
 
     @Override
@@ -36,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         passtxt = findViewById(R.id.loginPassword);
         button = findViewById(R.id.btn_login);
         signuptxt = findViewById(R.id.txt_signup);
+        sharedPreferences = getSharedPreferences("MyUserPrefs", Context.MODE_PRIVATE);
         signuptxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,13 +71,16 @@ public class LoginActivity extends AppCompatActivity {
             User user = new User();
             user.setEmail(emailtxt.getText().toString());
             user.setPassword(passtxt.getText().toString());
-
+            SharedPreferences.Editor editor = sharedPreferences.edit();
             Call<UserResponse> call = userService.login(user);
+
             call.enqueue(new Callback<UserResponse>() {
                 @Override
                 public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                     UserResponse userResponse = response.body();
                     if (userResponse.ok){
+                        editor.putString("_id", userResponse.usuario.get_id());
+                        editor.commit();
                         KAlertDialog pDialog = new KAlertDialog(LoginActivity.this, KAlertDialog.PROGRESS_TYPE);
                         pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
                         pDialog.setTitleText("Loading");

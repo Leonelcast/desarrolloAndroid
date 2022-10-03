@@ -1,15 +1,22 @@
 package com.example.proyectofinal;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.proyectofinal.adapter.RestauranteAdapter;
 import com.example.proyectofinal.interfaces.RestauranteService;
@@ -41,6 +48,7 @@ public class RestaurantFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    Menu menu;
 
     public RestaurantFragment() {
         // Required empty public constructor
@@ -57,7 +65,7 @@ public class RestaurantFragment extends Fragment {
     private List<Restaurante> mRestaurante;
     private RestauranteService mRestauranteService;
     private Button button, ordPopcal, nombreAs, nombreDes, depAS, depDes;
-    private RestauranteAdapter restauranteAdapter;
+    private RestauranteAdapter restauranteAdapter = new RestauranteAdapter(new ArrayList<>());
     // TODO: Rename and change types and number of parameters
     public static RestaurantFragment newInstance(String param1, String param2) {
         RestaurantFragment fragment = new RestaurantFragment();
@@ -80,62 +88,25 @@ public class RestaurantFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_restaurant, container, false);
-        button = view.findViewById(R.id.menosPopular);
-        ordPopcal= view.findViewById(R.id.maspopular);
-        nombreAs = view.findViewById(R.id.nombreOrdAs);
-        nombreDes = view.findViewById(R.id.nombreOrdDes);
-        depAS = view.findViewById(R.id.depaAs);
-        depDes = view.findViewById(R.id.depaDes);
-        depDes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                depOrdenDes(view);
-            }
-        });
-        depAS.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                depOrdenAs(view);
-            }
-        });
-        nombreDes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nombreOrdenDes(view);
-            }
-        });
-        nombreAs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nombreOrdenAs(view);
-            }
-        });
-        ordPopcal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                masPopular(view);
-            }
-        });
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                menosPopular(view);
-            }
+        TextView t1;
 
-        });
+        View view = inflater.inflate(R.layout.fragment_restaurant, container, false);
 
         mRestauranteService = connection.getRetrofitInstance().create(RestauranteService.class);
 
         Call<List<Restaurante>> resCall = mRestauranteService.getAllRestaurantes();
-
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyUserPrefs", Context.MODE_PRIVATE);
+        String _id = sharedPreferences.getString("_id", "");
+        t1 = view.findViewById(R.id.textoId);
+        t1.setText(_id);
         resCall.enqueue(new Callback<List<Restaurante>>() {
 
             @Override
             public void onResponse(Call<List<Restaurante>> call, Response<List<Restaurante>> response) {
                 RecyclerView rvRes = (RecyclerView) view.findViewById(R.id.ResList);
-                restauranteAdapter = new RestauranteAdapter(new ArrayList<>());
+
                 restauranteAdapter.reloadData(response.body());
                 rvRes.setLayoutManager(new LinearLayoutManager(getContext()));
                 rvRes.setAdapter(restauranteAdapter);
@@ -149,105 +120,34 @@ public class RestaurantFragment extends Fragment {
         return  view;
 
     }
-    public void nombreOrdenDes(View view) {
-        Collections.sort(mRestaurante, new Comparator<Restaurante>() {
-            @Override
-            public int compare(Restaurante restaurante, Restaurante t1) {
-                return 0;
-            }
-        });
 
-
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_filtro, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
-    public void depOrdenDes(View view) {
 
-        Call<List<Restaurante>> resCall = mRestauranteService.getDepDes();
-
-        resCall.enqueue(new Callback<List<Restaurante>>() {
-            @Override
-            public void onResponse(Call<List<Restaurante>> call, Response<List<Restaurante>> response) {
-                restauranteAdapter.reloadData(response.body());
-                restauranteAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Restaurante>> call, Throwable t) {
-                System.out.print("first statement. ");
-            }
-        });
-    }
-    public void depOrdenAs(View view) {
-
-        Call<List<Restaurante>> resCall = mRestauranteService.getDepAs();
-
-        resCall.enqueue(new Callback<List<Restaurante>>() {
-            @Override
-            public void onResponse(Call<List<Restaurante>> call, Response<List<Restaurante>> response) {
-                restauranteAdapter.reloadData(response.body());
-                restauranteAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Restaurante>> call, Throwable t) {
-                System.out.print("first statement. ");
-            }
-        });
-    }
-    public void nombreOrdenAs(View view) {
-
-        Call<List<Restaurante>> resCall = mRestauranteService.getNombreAs();
-
-        resCall.enqueue(new Callback<List<Restaurante>>() {
-            @Override
-            public void onResponse(Call<List<Restaurante>> call, Response<List<Restaurante>> response) {
-                restauranteAdapter.reloadData(response.body());
-                restauranteAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Restaurante>> call, Throwable t) {
-                System.out.print("first statement. ");
-            }
-        });
-    }
-    public void menosPopular(View view) {
-
-        Call<List<Restaurante>> resCall = mRestauranteService.getMenosPoupular();
-
-        resCall.enqueue(new Callback<List<Restaurante>>() {
-            @Override
-            public void onResponse(Call<List<Restaurante>> call, Response<List<Restaurante>> response) {
-                restauranteAdapter.reloadData(response.body());
-                restauranteAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Restaurante>> call, Throwable t) {
-                System.out.print("first statement. ");
-            }
-        });
-    }
-    public void masPopular(View view) {
-
-        Call<List<Restaurante>> resCall = mRestauranteService.getAllRestaurantes();
-
-        resCall.enqueue(new Callback<List<Restaurante>>() {
-            @Override
-            public void onResponse(Call<List<Restaurante>> call, Response<List<Restaurante>> response) {
-                restauranteAdapter.reloadData(response.body());
-                restauranteAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Restaurante>> call, Throwable t) {
-                System.out.print("first statement. ");
-            }
-        });
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.asc_nom){
+            restauranteAdapter.Ordenar(0);
+        } if(id == R.id.des_Nombre){
+            restauranteAdapter.Ordenar(1);
+        }
+         if(id == R.id.asc_dept){
+        restauranteAdapter.Ordenar(2);
+        }
+        if(id == R.id.des_dept){
+            restauranteAdapter.Ordenar(3);
+        }
+        if(id == R.id.mas_pop){
+            restauranteAdapter.Ordenar(4);
+        }
+        if(id == R.id.menos_pop){
+            restauranteAdapter.Ordenar(5);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 

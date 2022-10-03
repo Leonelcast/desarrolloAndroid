@@ -17,12 +17,13 @@
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/activity_signup2.xml" value="0.1" />
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/fragment_home.xml" value="0.10989583333333333" />
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/fragment_profile.xml" value="0.1" />
-        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/fragment_restaurant.xml" value="0.10989583333333333" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/fragment_restaurant.xml" value="0.16799999999999998" />
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/fragment_restaurante_details.xml" value="0.25" />
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/fragment_tour.xml" value="0.1" />
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/img_restaurante.xml" value="0.264" />
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/img_tour.xml" value="0.1" />
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/menu/botton_menu.xml" value="0.1" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/menu/menu_filtro.xml" value="0.25" />
       </map>
     </option>
   </component>

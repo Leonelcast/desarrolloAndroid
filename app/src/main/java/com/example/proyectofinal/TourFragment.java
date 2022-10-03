@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -42,6 +45,7 @@ public class TourFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    Menu menu;
 
     public TourFragment() {
         // Required empty public constructor
@@ -83,51 +87,9 @@ public class TourFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_tour, container, false);
 
-        button = view.findViewById(R.id.menosPopular);
-        ordPopcal= view.findViewById(R.id.maspopular);
-        nombreAs = view.findViewById(R.id.nombreOrdAs);
-        nombreDes = view.findViewById(R.id.nombreOrdDes);
-        depAS = view.findViewById(R.id.depaAs);
-        depDes = view.findViewById(R.id.depaDes);
-        depDes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                depOrdenDes(view);
-            }
-        });
-        depAS.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                depOrdenAs(view);
-            }
-        });
-        nombreDes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nombreOrdenDes(view);
-            }
-        });
-        nombreAs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nombreOrdenAs(view);
-            }
-        });
-        ordPopcal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                masPopular(view);
-            }
-        });
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                menosPopular(view);
-            }
-
-        });
 
         mTourService = connection.getRetrofitInstance().create(TourService.class);
 
@@ -151,123 +113,39 @@ public class TourFragment extends Fragment {
         });
         return  view;
     }
-    public void nombreOrdenDes(View view) {
-
-        Call<List<Tour>> tourCall = mTourService.getNombreDes();
-
-        tourCall.enqueue(new Callback<List<Tour>>() {
-            @Override
-            public void onResponse(Call<List<Tour>> call, Response<List<Tour>> response) {
-                tourAdapter.reloadData(response.body());
-                tourAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Tour>> call, Throwable t) {
-                System.out.print("first statement. ");
-            }
-        });
-    }
-    public void depOrdenDes(View view) {
-
-        Call<List<Tour>> tourCall = mTourService.getDepDes();
-
-        tourCall.enqueue(new Callback<List<Tour>>() {
-            @Override
-            public void onResponse(Call<List<Tour>> call, Response<List<Tour>> response) {
-                tourAdapter.reloadData(response.body());
-                tourAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Tour>> call, Throwable t) {
-                System.out.print("first statement. ");
-            }
-        });
-    }
-    public void depOrdenAs(View view) {
-
-        Call<List<Tour>> tourCall = mTourService.getDepAs();
-
-        tourCall.enqueue(new Callback<List<Tour>>() {
-            @Override
-            public void onResponse(Call<List<Tour>> call, Response<List<Tour>> response) {
-                tourAdapter.reloadData(response.body());
-                tourAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Tour>> call, Throwable t) {
-                System.out.print("first statement. ");
-            }
-        });
-    }
-    public void nombreOrdenAs(View view) {
-
-        Call<List<Tour>> tourCall = mTourService.getNombreAs();
-
-        tourCall.enqueue(new Callback<List<Tour>>() {
-            @Override
-            public void onResponse(Call<List<Tour>> call, Response<List<Tour>> response) {
-                tourAdapter.reloadData(response.body());
-                tourAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Tour>> call, Throwable t) {
-                System.out.print("first statement. ");
-            }
-        });
-    }
-    public void menosPopular(View view) {
-
-        Call<List<Tour>> tourCall = mTourService.getMenosPoupular();
-
-        tourCall.enqueue(new Callback<List<Tour>>() {
-            @Override
-            public void onResponse(Call<List<Tour>> call, Response<List<Tour>> response) {
-                tourAdapter.reloadData(response.body());
-                tourAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Tour>> call, Throwable t) {
-                System.out.print("first statement. ");
-            }
-        });
-    }
-    public void masPopular(View view) {
-
-        Call<List<Tour>> tourCall = mTourService.getAllTuristicos();
-
-        tourCall.enqueue(new Callback<List<Tour>>() {
-            @Override
-            public void onResponse(Call<List<Tour>> call, Response<List<Tour>> response) {
-                tourAdapter.reloadData(response.body());
-                tourAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Tour>> call, Throwable t) {
-                System.out.print("first statement. ");
-            }
-        });
-    }
-
-
-
-
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_filtro, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.asc_nom){
+            tourAdapter.Ordenar(0);
+        } if(id == R.id.des_Nombre){
+            tourAdapter.Ordenar(1);
+        }
+        if(id == R.id.asc_dept){
+            tourAdapter.Ordenar(2);
+        }
+        if(id == R.id.des_dept){
+            tourAdapter.Ordenar(3);
+        }
+        if(id == R.id.mas_pop){
+            tourAdapter.Ordenar(4);
+        }
+        if(id == R.id.menos_pop){
+            tourAdapter.Ordenar(5);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
-            }
+
+
+
+
+
 
 
 

@@ -1,6 +1,7 @@
 package com.example.proyectofinal.models;
 
 public class User {
+    private String _id;
     private String nombre;
     private String apellido;
     private String email;
@@ -12,6 +13,14 @@ public class User {
 
     public String getNombre() {
         return nombre;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public void setNombre(String nombre) {

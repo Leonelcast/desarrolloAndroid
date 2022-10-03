@@ -3,6 +3,7 @@ package com.example.proyectofinal.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,11 +18,14 @@ import com.example.proyectofinal.R;
 import com.example.proyectofinal.RestaurantDesActivity;
 import com.example.proyectofinal.models.Restaurante;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.ViewHolder> {
     private List<Restaurante> mRestaurante;
     private Context context;
+    Menu menu;
 
     public RestauranteAdapter(List<Restaurante> mRestaurante){this.mRestaurante = mRestaurante;}
 
@@ -48,11 +52,15 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
         TextView tourDepartamentoTextView = holder.mDepartamento;
         tourDepartamentoTextView.setText(restaurante.departamento);
         TextView tourCalificacionTextView = holder.mCalificacion;
+        if(restaurante.calificacion == null){
+            restaurante.calificacion = "0";
+        }
         tourCalificacionTextView.setText(restaurante.calificacion);
         TextView urlTextView = holder.mURL;
         urlTextView.setText(restaurante.img);
         ImageView tourImg = holder.mRestauranteImage;
         Glide.with(this.context).load(restaurante.img).into(tourImg);
+
     }
 
     @Override
@@ -76,6 +84,7 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
             mURL = (TextView) itemView.findViewById(R.id.url);
             itemView.setOnClickListener(this);
 
+
         }
 
         @Override
@@ -87,5 +96,60 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
             intent.putExtra("img", mURL.getText().toString());
             view.getContext().startActivity(intent);
         }
+    }
+
+    public void Ordenar(int i){
+        switch (i){
+            case 0:
+                Collections.sort(mRestaurante, new Comparator<Restaurante>() {
+                    @Override
+                    public int compare(Restaurante r1, Restaurante r2) {
+                        return r1.getNombre().compareTo(r2.getNombre());
+                    }
+                });
+                break;
+            case 1:
+                Collections.sort(mRestaurante, new Comparator<Restaurante>() {
+                    @Override
+                    public int compare(Restaurante r1, Restaurante r2) {
+                        return r2.getNombre().compareTo(r1.getNombre());
+                    }
+                });
+                break;
+            case 2:
+                Collections.sort(mRestaurante, new Comparator<Restaurante>() {
+                    @Override
+                    public int compare(Restaurante r1, Restaurante r2) {
+                        return r1.getDepartamento().compareTo(r2.getDepartamento());
+                    }
+                });
+                break;
+            case 3:
+                Collections.sort(mRestaurante, new Comparator<Restaurante>() {
+                    @Override
+                    public int compare(Restaurante r1, Restaurante r2) {
+                        return r2.getDepartamento().compareTo(r1.getDepartamento());
+                    }
+                });
+                break;
+            case 4:
+                Collections.sort(mRestaurante, new Comparator<Restaurante>() {
+                    @Override
+                    public int compare(Restaurante r1, Restaurante r2) {
+                        return r2.getCalificacion().compareTo(r1.getCalificacion());
+
+                    }
+                });
+                break;
+            case 5:
+                Collections.sort(mRestaurante, new Comparator<Restaurante>() {
+                    @Override
+                    public int compare(Restaurante r1, Restaurante r2) {
+                        return r1.getCalificacion().compareTo(r2.getCalificacion());
+                    }
+                });
+                break;
+        }
+        notifyDataSetChanged();
     }
 }

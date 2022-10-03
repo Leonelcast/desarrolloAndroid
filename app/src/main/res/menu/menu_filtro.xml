@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item android:title="A-Z Nombre"
+        android:id="@+id/asc_nom"/>
+    <item android:title="Z-A Nombre"
+        android:id="@+id/des_Nombre"/>
+    <item android:title="A-Z Departemento"
+        android:id="@+id/asc_dept"/>
+    <item android:title="Z-A Departamento"
+        android:id="@+id/des_dept"/>
+    <item android:title="Más Popular"
+        android:id="@+id/mas_pop"/>
+    <item android:title="Menos Popular"
+        android:id="@+id/menos_pop"/>
+</menu>
