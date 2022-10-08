@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Lugar Turistico"
+        android:icon="@drawable/ic_baseline_location_on_24"
+        android:id="@+id/descTour"/>
+    <item android:title="Comentarios"
+        android:icon="@drawable/ic_baseline_comment_24"
+        android:id="@+id/TourComentario"/>
+
+</menu>

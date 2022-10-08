@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.proyectofinal.MainActivity;
 import com.example.proyectofinal.R;
+import com.example.proyectofinal.TourDescActivity;
 import com.example.proyectofinal.models.Tour;
 
 import java.util.Collections;
@@ -90,7 +91,7 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> {
 
          @Override
          public void onClick(View view) {
-             Intent intent = new Intent(view.getContext(), MainActivity.class);
+             Intent intent = new Intent(view.getContext(), TourDescActivity.class);
              intent.putExtra("nombre", mNombre.getText().toString());
              intent.putExtra("departamento", mDepartamento.getText().toString());
              intent.putExtra("califiacion", mCalificacion.getText().toString());
@@ -99,62 +100,56 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> {
          }
      }
 
-     public void Ordenar(int i){
-        switch (i){
-            case 0:
-                Collections.sort(mTour, new Comparator<Tour>() {
-                    @Override
-                    public int compare(Tour t1, Tour t2) {
+     public void Ordenar(int position){
+        if(position == 0){
+            Collections.sort(mTour, new Comparator<Tour>() {
+                @Override
+                public int compare(Tour t1, Tour t2) {
 
-                        return t1.getNombre().compareTo(t2.getNombre());
-                    }
-                });
-                break;
-            case 1:
-                Collections.sort(mTour, new Comparator<Tour>() {
-                    @Override
-                    public int compare(Tour t1, Tour t2) {
+                    return t1.getNombre().compareTo(t2.getNombre());
+                }
+            });
+        }if(position == 1){
+             Collections.sort(mTour, new Comparator<Tour>() {
+                 @Override
+                 public int compare(Tour t1, Tour t2) {
 
-                        return t2.getNombre().compareTo(t1.getNombre());
-                    }
-                });
-                break;
-            case 2:
-                Collections.sort(mTour, new Comparator<Tour>() {
-                    @Override
-                    public int compare(Tour t1, Tour t2) {
+                     return t2.getNombre().compareTo(t1.getNombre());
+                 }
+             });
+         }
+         if(position == 2){
+             Collections.sort(mTour, new Comparator<Tour>() {
+                 @Override
+                 public int compare(Tour t1, Tour t2) {
 
-                        return t1.getDepartamento().compareTo(t2.getDepartamento());
-                    }
-                });
-                break;
-            case 3:
-                Collections.sort(mTour, new Comparator<Tour>() {
-                    @Override
-                    public int compare(Tour t1, Tour t2) {
+                     return t1.getDepartamento().compareTo(t2.getDepartamento());
+                 }
+             });
+         }if(position == 3){
+             Collections.sort(mTour, new Comparator<Tour>() {
+                 @Override
+                 public int compare(Tour t1, Tour t2) {
 
-                        return t2.getDepartamento().compareTo(t1.getDepartamento());
-                    }
-                });
-                break;
-            case 4:
-                Collections.sort(mTour, new Comparator<Tour>() {
-                    @Override
-                    public int compare(Tour t1, Tour t2) {
+                     return t2.getDepartamento().compareTo(t1.getDepartamento());
+                 }
+             });
+         }if(position == 4){
+             Collections.sort(mTour, new Comparator<Tour>() {
+                 @Override
+                 public int compare(Tour t1, Tour t2) {
 
-                        return t2.getCalificacion().compareTo(t1.getCalificacion());
-                    }
-                });
-                break;
-            case 5:
-                Collections.sort(mTour, new Comparator<Tour>() {
-                    @Override
-                    public int compare(Tour t1, Tour t2) {
+                     return t2.getCalificacion().compareTo(t1.getCalificacion());
+                 }
+             });
+         }if(position == 5){
+             Collections.sort(mTour, new Comparator<Tour>() {
+                 @Override
+                 public int compare(Tour t1, Tour t2) {
 
-                        return t1.getCalificacion().compareTo(t2.getCalificacion());
-                    }
-                });
-                break;
+                     return t1.getCalificacion().compareTo(t2.getCalificacion());
+                 }
+             });
         }
          notifyDataSetChanged();
      }

@@ -14,7 +14,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.proyectofinal.adapter.TourAdapter;
@@ -63,6 +66,7 @@ public class TourFragment extends Fragment {
     private TourService mTourService;
     private Button button, ordPopcal, nombreAs, nombreDes, depAS, depDes;
     private TourAdapter tourAdapter;
+    Spinner tourSpinner;
     // TODO: Rename and change types and number of parameters
     public static TourFragment newInstance(String param1, String param2) {
         TourFragment fragment = new TourFragment();
@@ -94,7 +98,38 @@ public class TourFragment extends Fragment {
         mTourService = connection.getRetrofitInstance().create(TourService.class);
 
        Call<List<Tour>> tourCall = mTourService.getAllTuristicos();
+        tourSpinner = (Spinner) view.findViewById(R.id.idSpinnerTour);
 
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity(), R.array.option_tour, android.R.layout.simple_spinner_item);
+        tourSpinner.setAdapter(adapter);
+        tourSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(i == 1){
+                    tourAdapter.Ordenar(0);
+                }
+                if(i == 2){
+                    tourAdapter.Ordenar(1);
+                }
+                if(i == 3){
+                    tourAdapter.Ordenar(2);
+                }
+                if(i == 4){
+                    tourAdapter.Ordenar(3);
+                }
+                if(i == 5){
+                    tourAdapter.Ordenar(4);
+                }
+                if(i == 6){
+                    tourAdapter.Ordenar(5);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         tourCall.enqueue(new Callback<List<Tour>>() {
             @Override
             public void onResponse(Call<List<Tour>> call, Response<List<Tour>> response) {
@@ -103,6 +138,8 @@ public class TourFragment extends Fragment {
                 tourAdapter.reloadData(response.body());
                 rvTour.setLayoutManager(new LinearLayoutManager(getContext()));
                 rvTour.setAdapter(tourAdapter);
+
+
 
             }
 
@@ -113,40 +150,5 @@ public class TourFragment extends Fragment {
         });
         return  view;
     }
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_filtro, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        if(id == R.id.asc_nom){
-            tourAdapter.Ordenar(0);
-        } if(id == R.id.des_Nombre){
-            tourAdapter.Ordenar(1);
-        }
-        if(id == R.id.asc_dept){
-            tourAdapter.Ordenar(2);
-        }
-        if(id == R.id.des_dept){
-            tourAdapter.Ordenar(3);
-        }
-        if(id == R.id.mas_pop){
-            tourAdapter.Ordenar(4);
-        }
-        if(id == R.id.menos_pop){
-            tourAdapter.Ordenar(5);
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
-
-
-
-
-
-
 
 }

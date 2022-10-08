@@ -13,8 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.proyectofinal.DescriptionResActivity;
 import com.example.proyectofinal.MainActivity;
 import com.example.proyectofinal.R;
+import com.example.proyectofinal.RestDescFragment;
 import com.example.proyectofinal.RestaurantDesActivity;
 import com.example.proyectofinal.models.Restaurante;
 
@@ -58,6 +60,8 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
         tourCalificacionTextView.setText(restaurante.calificacion);
         TextView urlTextView = holder.mURL;
         urlTextView.setText(restaurante.img);
+        TextView idRest = holder.mIdRest;
+        idRest.setText(restaurante._id);
         ImageView tourImg = holder.mRestauranteImage;
         Glide.with(this.context).load(restaurante.img).into(tourImg);
 
@@ -74,6 +78,7 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
         private TextView mDepartamento;
         private TextView mCalificacion;
         private TextView mURL;
+        private TextView mIdRest;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -82,6 +87,7 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
             mDepartamento = (TextView) itemView.findViewById(R.id.departamento_res);
             mCalificacion = (TextView) itemView.findViewById(R.id.calificacion_res);
             mURL = (TextView) itemView.findViewById(R.id.url);
+            mIdRest = (TextView) itemView.findViewById(R.id.idRestaurante);
             itemView.setOnClickListener(this);
 
 
@@ -89,66 +95,59 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(view.getContext(), RestaurantDesActivity.class);
+            Intent intent = new Intent(view.getContext(), DescriptionResActivity.class);
             intent.putExtra("nombre", mNombre.getText().toString());
             intent.putExtra("departamento", mDepartamento.getText().toString());
             intent.putExtra("califiacion", mCalificacion.getText().toString());
             intent.putExtra("img", mURL.getText().toString());
+            intent.putExtra("_idRest", mIdRest.getText().toString());
             view.getContext().startActivity(intent);
         }
     }
 
-    public void Ordenar(int i){
-        switch (i){
-            case 0:
-                Collections.sort(mRestaurante, new Comparator<Restaurante>() {
-                    @Override
-                    public int compare(Restaurante r1, Restaurante r2) {
-                        return r1.getNombre().compareTo(r2.getNombre());
-                    }
-                });
-                break;
-            case 1:
-                Collections.sort(mRestaurante, new Comparator<Restaurante>() {
-                    @Override
-                    public int compare(Restaurante r1, Restaurante r2) {
-                        return r2.getNombre().compareTo(r1.getNombre());
-                    }
-                });
-                break;
-            case 2:
-                Collections.sort(mRestaurante, new Comparator<Restaurante>() {
-                    @Override
-                    public int compare(Restaurante r1, Restaurante r2) {
-                        return r1.getDepartamento().compareTo(r2.getDepartamento());
-                    }
-                });
-                break;
-            case 3:
-                Collections.sort(mRestaurante, new Comparator<Restaurante>() {
-                    @Override
-                    public int compare(Restaurante r1, Restaurante r2) {
-                        return r2.getDepartamento().compareTo(r1.getDepartamento());
-                    }
-                });
-                break;
-            case 4:
-                Collections.sort(mRestaurante, new Comparator<Restaurante>() {
-                    @Override
-                    public int compare(Restaurante r1, Restaurante r2) {
-                        return r2.getCalificacion().compareTo(r1.getCalificacion());
-
-                    }
-                });
-                break;
-            case 5:
-                Collections.sort(mRestaurante, new Comparator<Restaurante>() {
-                    @Override
-                    public int compare(Restaurante r1, Restaurante r2) {
-                        return r1.getCalificacion().compareTo(r2.getCalificacion());
-                    }
-                });
-                break;
+    public void Ordenar(int position){
+        if(position == 0){
+            Collections.sort(mRestaurante, new Comparator<Restaurante>() {
+                @Override
+                public int compare(Restaurante r1, Restaurante r2) {
+                    return r1.getNombre().compareTo(r2.getNombre());
+                }
+            });
+        } if(position == 1){
+            Collections.sort(mRestaurante, new Comparator<Restaurante>() {
+                @Override
+                public int compare(Restaurante r1, Restaurante r2) {
+                    return r2.getNombre().compareTo(r1.getNombre());
+                }
+            });
+        }if(position == 2){
+            Collections.sort(mRestaurante, new Comparator<Restaurante>() {
+                @Override
+                public int compare(Restaurante r1, Restaurante r2) {
+                    return r1.getDepartamento().compareTo(r2.getDepartamento());
+                }
+            });
+        }if(position == 3){
+            Collections.sort(mRestaurante, new Comparator<Restaurante>() {
+                @Override
+                public int compare(Restaurante r1, Restaurante r2) {
+                    return r2.getDepartamento().compareTo(r1.getDepartamento());
+                }
+            });
+        }if(position == 4){
+            Collections.sort(mRestaurante, new Comparator<Restaurante>() {
+                @Override
+                public int compare(Restaurante r1, Restaurante r2) {
+                    return r2.getCalificacion().compareTo(r1.getCalificacion());
+                }
+            });
+        }if(position == 5){
+            Collections.sort(mRestaurante, new Comparator<Restaurante>() {
+                @Override
+                public int compare(Restaurante r1, Restaurante r2) {
+                    return r1.getCalificacion().compareTo(r2.getCalificacion());
+                }
+            });
         }
         notifyDataSetChanged();
     }

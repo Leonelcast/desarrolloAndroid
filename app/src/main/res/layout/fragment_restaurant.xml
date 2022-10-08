@@ -7,12 +7,21 @@
     android:padding="28dp"
     tools:context=".RestaurantFragment">
 
+    <Spinner
+        android:id="@+id/idSpinnerRes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp" />
+
+
     <TextView
         android:id="@+id/textoId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
+        android:visibility="invisible"
         />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ResList"

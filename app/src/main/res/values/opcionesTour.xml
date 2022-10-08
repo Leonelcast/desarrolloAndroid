@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="option_tour">
+        <item>Selecciona el ordenamiento</item>
+        <item>A-Z Nombre</item>
+        <item>Z-A Nombre</item>
+        <item>A-Z Departamento</item>
+        <item>Z-A Departamento</item>
+        <item>Mas popular</item>
+        <item>Menos popular</item>
+    </string-array>
+</resources>

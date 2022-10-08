@@ -25,4 +25,6 @@
     <string name="menos_popular">menos popular</string>
     <string name="popular">Popular</string>
     <string name="cerrar_sesion">Cerrar sesion</string>
+    <string name="comentar">Comentar</string>
+
 </resources>

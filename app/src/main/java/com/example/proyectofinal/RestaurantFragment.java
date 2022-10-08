@@ -15,8 +15,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.proyectofinal.adapter.RestauranteAdapter;
 import com.example.proyectofinal.interfaces.RestauranteService;
@@ -48,7 +52,6 @@ public class RestaurantFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    Menu menu;
 
     public RestaurantFragment() {
         // Required empty public constructor
@@ -62,10 +65,7 @@ public class RestaurantFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment RestaurantFragment.
      */
-    private List<Restaurante> mRestaurante;
-    private RestauranteService mRestauranteService;
-    private Button button, ordPopcal, nombreAs, nombreDes, depAS, depDes;
-    private RestauranteAdapter restauranteAdapter = new RestauranteAdapter(new ArrayList<>());
+
     // TODO: Rename and change types and number of parameters
     public static RestaurantFragment newInstance(String param1, String param2) {
         RestaurantFragment fragment = new RestaurantFragment();
@@ -84,7 +84,11 @@ public class RestaurantFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    private List<Restaurante> mRestaurante;
+    private RestauranteService mRestauranteService;
+    private Button button, ordPopcal, nombreAs, nombreDes, depAS, depDes;
+    private RestauranteAdapter restauranteAdapter = new RestauranteAdapter(new ArrayList<>());
+    Spinner restauranteSpinner;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -94,13 +98,17 @@ public class RestaurantFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_restaurant, container, false);
 
-        mRestauranteService = connection.getRetrofitInstance().create(RestauranteService.class);
 
-        Call<List<Restaurante>> resCall = mRestauranteService.getAllRestaurantes();
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyUserPrefs", Context.MODE_PRIVATE);
         String _id = sharedPreferences.getString("_id", "");
         t1 = view.findViewById(R.id.textoId);
         t1.setText(_id);
+        restauranteSpinner = (Spinner) view.findViewById(R.id.idSpinnerRes);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getContext(),R.array.option_restaurante, android.R.layout.simple_spinner_item);
+        restauranteSpinner.setAdapter(adapter);
+        //Conexion y recycler view
+        mRestauranteService = connection.getRetrofitInstance().create(RestauranteService.class);
+        Call<List<Restaurante>> resCall = mRestauranteService.getAllRestaurantes();
         resCall.enqueue(new Callback<List<Restaurante>>() {
 
             @Override
@@ -117,38 +125,38 @@ public class RestaurantFragment extends Fragment {
                 System.out.print("first statement. ");
             }
         });
+        restauranteSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                //Toast.makeText(adapterView.getContext(), adapterView.getItemAtPosition(position), Toast.LENGTH_LONG).show();
+                if(position == 1){
+                    restauranteAdapter.Ordenar(0);
+                }
+                if(position == 2){
+                    restauranteAdapter.Ordenar(1);
+                }
+                if(position == 3){
+                    restauranteAdapter.Ordenar(2);
+                }
+                if(position == 4){
+                    restauranteAdapter.Ordenar(3);
+                }
+                if(position == 5){
+                    restauranteAdapter.Ordenar(4);
+                }
+                if(position == 6){
+                    restauranteAdapter.Ordenar(5);
+                }
+            }
+
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         return  view;
 
     }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_filtro, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        if(id == R.id.asc_nom){
-            restauranteAdapter.Ordenar(0);
-        } if(id == R.id.des_Nombre){
-            restauranteAdapter.Ordenar(1);
-        }
-         if(id == R.id.asc_dept){
-        restauranteAdapter.Ordenar(2);
-        }
-        if(id == R.id.des_dept){
-            restauranteAdapter.Ordenar(3);
-        }
-        if(id == R.id.mas_pop){
-            restauranteAdapter.Ordenar(4);
-        }
-        if(id == R.id.menos_pop){
-            restauranteAdapter.Ordenar(5);
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 
 }
