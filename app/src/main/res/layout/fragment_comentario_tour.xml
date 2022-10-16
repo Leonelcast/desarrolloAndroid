@@ -4,11 +4,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ComentarioTourFragment">
-
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/pruebaTour"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:layout_marginStart="100dp"/>
+
+    <Button
+        android:id="@+id/comentarioTour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/comentar"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/CommentTourList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="aaaa" />
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="30dp"/>
 
 </FrameLayout>

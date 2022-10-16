@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="0dp">
 
     <ImageView
-        android:id="@+id/res_img"
+        android:id="@+id/res_imgFav"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="8dp"
@@ -16,11 +15,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/nombre_res"
+        android:id="@+id/nombre_resFav"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/res_img"
+        app:layout_constraintStart_toEndOf="@id/res_imgFav"
         android:layout_marginStart="20dp"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -28,20 +27,20 @@
         android:text="Los juegos del hambre"/>
 
     <TextView
-        android:id="@+id/departamento_res"
+        android:id="@+id/departamento_resFav"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/nombre_res"
+        app:layout_constraintTop_toBottomOf="@id/nombre_resFav"
         app:layout_constraintStart_toEndOf="@id/res_img"
         android:text="J.K. Rowling"
         android:textSize="16sp"
         android:layout_marginStart="20dp"/>
     <TextView
-        android:id="@+id/calificacion_res"
+        android:id="@+id/calificacion_resFav"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/departamento_res"
-        app:layout_constraintStart_toEndOf="@id/res_img"
+        app:layout_constraintTop_toBottomOf="@id/departamento_resFav"
+        app:layout_constraintStart_toEndOf="@id/res_imgFav"
         android:text="J.K. Rowling"
         android:textSize="16sp"
         android:layout_marginStart="20dp"
@@ -50,29 +49,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/calificacion_res"
+        app:layout_constraintTop_toBottomOf="@id/calificacion_resFav"
         android:width="0dp"
         android:height="0dp"
-        android:id="@+id/url"
+        android:id="@+id/urlFav"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/calificacion_res"
+        app:layout_constraintTop_toBottomOf="@id/calificacion_resFav"
         android:width="0dp"
         android:height="0dp"
-        android:id="@+id/idRestaurante"
+        android:id="@+id/idRestauranteFav"
         />
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/nombre_res"
+        app:layout_constraintTop_toBottomOf="@id/nombre_resFav"
         android:button="@drawable/selector_item"
         app:useMaterialThemeColors="false"
         android:width="0dp"
         android:height="0dp"
-        android:id="@+id/FavRes"/>
+        android:id="@+id/FavResFav"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,12 +1,30 @@
 package com.example.proyectofinal;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.example.proyectofinal.DTO.ComentarioTourGet;
+import com.example.proyectofinal.adapter.ComentarioTourAdapter;
+import com.example.proyectofinal.databinding.FragmentComentarioTourBinding;
+import com.example.proyectofinal.interfaces.ComentarioTourService;
+import com.example.proyectofinal.retrofit.connection;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,11 +72,51 @@ public class ComentarioTourFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    private Button button;
+    private FragmentComentarioTourBinding binding;
+    private TextView urlText;
+    private ComentarioTourService mComentarioTourService;
+    private List<ComentarioTourGet> mComentarioTourGet;
+    private ComentarioTourAdapter comentarioTourAdapter = new ComentarioTourAdapter(new ArrayList<>());
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_comentario_tour, container, false);
+        View view = inflater.inflate(R.layout.fragment_comentario_tour, container, false);
+        binding = FragmentComentarioTourBinding.inflate(getLayoutInflater());
+        binding.getRoot();
+        Bundle bundle = getActivity().getIntent().getExtras();
+        urlText = view.findViewById(R.id.pruebaTour);
+        urlText.setText(bundle.getString("_idTour"));
+        button = view.findViewById(R.id.comentarioTour);
+
+        mComentarioTourService = connection.getRetrofitInstance().create(ComentarioTourService.class);
+        Call<List<ComentarioTourGet>> commentTourGet = mComentarioTourService.getComentarioTour(bundle.getString("_idTour"));
+        commentTourGet.enqueue(new Callback<List<ComentarioTourGet>>() {
+            @Override
+            public void onResponse(Call<List<ComentarioTourGet>> call, Response<List<ComentarioTourGet>> response) {
+                RecyclerView rvTourComment = (RecyclerView) view.findViewById(R.id.CommentTourList);
+                comentarioTourAdapter = new ComentarioTourAdapter((new ArrayList<>()));
+                comentarioTourAdapter.reloadData(response.body());
+                rvTourComment.setLayoutManager(new LinearLayoutManager(getContext()));
+                rvTourComment.setAdapter(comentarioTourAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<ComentarioTourGet>> call, Throwable t) {
+                new Exception(t.getMessage());
+            }
+        });
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), CommentTourActivity.class);
+                intent.putExtra("_idTour", urlText.getText().toString());
+                startActivity(intent);
+            }
+        });
+
+
+        return view;
     }
 }

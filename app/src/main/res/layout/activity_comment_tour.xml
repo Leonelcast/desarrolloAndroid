@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".CommentTourActivity">
+
+    <TextView
+        android:id="@+id/atrasCommentTour"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="5dp"
+        app:drawableLeftCompat="@drawable/ic_baseline_navigate_before_24" />
+    <EditText
+        android:id="@+id/usuarioIdTour"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:padding="20dp"
+        android:inputType="text"
+        android:hint="ID Usuario"
+        android:autofillHints="name"
+        android:visibility="visible"/>
+    <EditText
+        android:id="@+id/touristicoId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:padding="20dp"
+        android:inputType="text"
+        android:hint="ID restaurante"
+        android:autofillHints="name"
+        android:visibility="visible"/>
+    <EditText
+        android:id="@+id/CalificacionTour"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:padding="20dp"
+        android:hint="Calificacion" />
+    <EditText
+        android:id="@+id/comentarioDelTour"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:padding="20dp"
+        android:inputType="text"
+        android:hint="Comentario"
+        android:autofillHints="name"/>
+    <Button
+        android:id="@+id/btn_commentTour"
+        android:layout_margin="10dp"
+        android:background="@color/header"
+        android:textSize="20sp"
+        android:text="Comentar"
+        android:textColor="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

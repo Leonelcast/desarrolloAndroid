@@ -57,5 +57,14 @@
         android:height="0dp"
         android:id="@+id/url"
         />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/calificacion"
+        android:width="0dp"
+        android:height="0dp"
+        android:id="@+id/idTour"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

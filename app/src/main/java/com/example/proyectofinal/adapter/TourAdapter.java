@@ -62,6 +62,8 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> {
         TextView urlTextView = holder.mURL;
         urlTextView.setText(tour.img);
         ImageView tourImg = holder.mTourImage;
+        TextView idRest = holder.mIdTour;
+        idRest.setText(tour._id);
         Glide.with(this.context).load(tour.img).into(tourImg);
 
     }
@@ -77,6 +79,7 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> {
         private TextView mDepartamento;
         private TextView mCalificacion;
          private TextView mURL;
+         private TextView mIdTour;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -86,6 +89,7 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> {
             mDepartamento = (TextView) itemView.findViewById(R.id.departamento);
             mCalificacion = (TextView) itemView.findViewById(R.id.calificacion);
             mURL = (TextView) itemView.findViewById(R.id.url);
+            mIdTour = (TextView) itemView.findViewById(R.id.idTour);
             itemView.setOnClickListener(this);
         }
 
@@ -96,6 +100,7 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> {
              intent.putExtra("departamento", mDepartamento.getText().toString());
              intent.putExtra("califiacion", mCalificacion.getText().toString());
              intent.putExtra("img", mURL.getText().toString());
+             intent.putExtra("_idTour", mIdTour.getText().toString());
              view.getContext().startActivity(intent);
          }
      }

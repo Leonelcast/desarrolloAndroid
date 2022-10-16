@@ -98,7 +98,7 @@ public class ComentariosRestAdapter extends RecyclerView.Adapter<ComentariosRest
 
                         @Override
                         public void onFailure(Call<ComentarioResResponse> call, Throwable t) {
-                            Toast.makeText(view.getContext(), "hola", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(view.getContext(), "error", Toast.LENGTH_SHORT).show();
                         }
                     });
             }

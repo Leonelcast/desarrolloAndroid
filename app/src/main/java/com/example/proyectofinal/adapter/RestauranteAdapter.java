@@ -2,27 +2,39 @@ package com.example.proyectofinal.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.developer.kalert.KAlertDialog;
+import com.example.proyectofinal.DTO.FavoritoRestauranteResponse;
 import com.example.proyectofinal.DescriptionResActivity;
 import com.example.proyectofinal.MainActivity;
 import com.example.proyectofinal.R;
 import com.example.proyectofinal.RestDescFragment;
 import com.example.proyectofinal.RestaurantDesActivity;
+import com.example.proyectofinal.interfaces.FavRestauranteService;
+import com.example.proyectofinal.models.FavRestaurantes;
 import com.example.proyectofinal.models.Restaurante;
+import com.example.proyectofinal.retrofit.connection;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.ViewHolder> {
     private List<Restaurante> mRestaurante;
@@ -64,6 +76,40 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
         idRest.setText(restaurante._id);
         ImageView tourImg = holder.mRestauranteImage;
         Glide.with(this.context).load(restaurante.img).into(tourImg);
+        CheckBox favRes = holder.mFavoritosRes;
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MyUserPrefs", Context.MODE_PRIVATE);
+        String _id = sharedPreferences.getString("_id", "");
+        favRes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean checked = ((CheckBox)view).isChecked();
+                FavRestaurantes favRestaurantes = new FavRestaurantes();
+                favRestaurantes.setUsuario(_id);
+                favRestaurantes.setRestaurante(restaurante._id);
+                FavRestauranteService favRestauranteService = connection.getRetrofitInstance().create(FavRestauranteService.class);
+                Call<FavoritoRestauranteResponse> favoritoRestauranteResponseCall = favRestauranteService.agregarFavorito(favRestaurantes);
+                favoritoRestauranteResponseCall.enqueue(new Callback<FavoritoRestauranteResponse>() {
+                    @Override
+                    public void onResponse(Call<FavoritoRestauranteResponse> call, Response<FavoritoRestauranteResponse> response) {
+                        FavoritoRestauranteResponse favoritoRestauranteResponse = response.body();
+                        if(checked == true && favoritoRestauranteResponse.ok){
+                            new KAlertDialog(view.getContext(), KAlertDialog.SUCCESS_TYPE)
+                                    .setTitleText("Good job!")
+                                    .setContentText("You clicked the button!")
+                                    .show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<FavoritoRestauranteResponse> call, Throwable t) {
+
+                    }
+                });
+
+
+
+            }
+        });
 
     }
 
@@ -79,6 +125,7 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
         private TextView mCalificacion;
         private TextView mURL;
         private TextView mIdRest;
+        private CheckBox mFavoritosRes;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -88,6 +135,8 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
             mCalificacion = (TextView) itemView.findViewById(R.id.calificacion_res);
             mURL = (TextView) itemView.findViewById(R.id.url);
             mIdRest = (TextView) itemView.findViewById(R.id.idRestaurante);
+            mFavoritosRes = (CheckBox) itemView.findViewById(R.id.FavRes);
+
             itemView.setOnClickListener(this);
 
 

@@ -13,5 +13,10 @@
         android:text="@string/cerrar_sesion"
         android:textSize="10sp"
         tools:ignore="SmallSp"/>
+    <TextView
+        android:layout_marginTop="300dp"
+        android:layout_width="225dp"
+        android:layout_height="250dp"
+        android:text="Los juegos del hambre"/>
 
 </FrameLayout>
