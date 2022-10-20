@@ -36,26 +36,104 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/NombreResDesc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="dummy text"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:text="dummy text"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.277" />
+
+            <TextView
+                android:id="@+id/DescCalificacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:text="dummy text"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/NombreResDesc"
+                app:layout_constraintVertical_bias="0.178" />
+
+            <TextView
+                android:id="@+id/DescResDep"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="100dp"
+                android:layout_marginEnd="10dp"
+                android:text="dummy text"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/NombreResDesc"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/DescRestaurante"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="10dp"
+                android:text="dummy text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/DescResDep" />
+
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1.0">
+
+                <Button
+                    android:id="@+id/MapsRest"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_weight=".30"
+                    android:text="GMaps" />
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".40"
+                    android:text="center"
+                    android:visibility="invisible" />
+
+                <Button
+                    android:id="@+id/WazeRest"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:layout_weight=".30"
+                    android:text="Waze" />
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </androidx.core.widget.NestedScrollView>
 

@@ -6,6 +6,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
@@ -19,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         com.example.proyectofinal.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+        SharedPreferences sharedPreferences = getSharedPreferences("MyUserPrefs", Context.MODE_PRIVATE);
+        String _id = sharedPreferences.getString("_id", "");
         setContentView(binding.getRoot());
         replaceFragment(new RestaurantFragment());
         BottomNavigationView b = binding.bottomNavbarFavs;

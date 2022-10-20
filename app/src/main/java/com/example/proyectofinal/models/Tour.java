@@ -13,16 +13,60 @@ public class Tour {
     public String calificacion;
     @SerializedName("img")
     public String img;
+    @SerializedName("lat")
+    public String lat;
+    @SerializedName("long")
+    public String longitud;
+    @SerializedName("descripcion")
+    public String descripcion;
+    @SerializedName("favoritos")
+    public Boolean favoritos;
 
     public Tour(){
 
     }
 
-    public Tour(String nombre, String departamento, String calificacion, String img){
+    public Tour(String nombre, String departamento, String calificacion, String img, String descripcion, String longitud, String lat, boolean favoritos){
         this.nombre = nombre;
         this.departamento = departamento;
         this.calificacion = calificacion;
         this.img = img;
+        this.descripcion = descripcion;
+        this.longitud = longitud;
+        this.lat = lat;
+        this.favoritos = favoritos;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(String longitud) {
+        this.longitud = longitud;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public Boolean getFavoritos() {
+        return favoritos;
+    }
+
+    public void setFavoritos(Boolean favoritos) {
+        this.favoritos = favoritos;
     }
 
     public String get_id() {

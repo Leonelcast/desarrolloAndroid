@@ -2,10 +2,13 @@ package com.example.proyectofinal.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,14 +16,23 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.developer.kalert.KAlertDialog;
+import com.example.proyectofinal.DTO.FavoritoTourResponse;
 import com.example.proyectofinal.MainActivity;
 import com.example.proyectofinal.R;
 import com.example.proyectofinal.TourDescActivity;
+import com.example.proyectofinal.interfaces.FavTourService;
+import com.example.proyectofinal.models.FavTours;
 import com.example.proyectofinal.models.Tour;
+import com.example.proyectofinal.retrofit.connection;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> {
 
@@ -55,6 +67,13 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> {
         TextView tourDepartamentoTextView = holder.mDepartamento;
         tourDepartamentoTextView.setText(tour.departamento);
         TextView tourCalificacionTextView = holder.mCalificacion;
+        TextView decRes = holder.mDescripcion;
+        decRes.setText(tour.descripcion);
+       // Button buttonUb = holder.mButton;
+        TextView longitudRes = holder.mLongitud;
+        longitudRes.setText(tour.longitud);
+        TextView latitudRes = holder.mLatitud;
+        latitudRes.setText(tour.lat);
         if(tour.calificacion == null){
             tour.calificacion = "0";
         }
@@ -65,6 +84,42 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> {
         TextView idRest = holder.mIdTour;
         idRest.setText(tour._id);
         Glide.with(this.context).load(tour.img).into(tourImg);
+        CheckBox favTour = holder.mFavoritosTour;
+        if(tour.favoritos == true){
+            favTour.setChecked(true);
+        }else{
+            favTour.setChecked(false);
+        }
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MyUserPrefs", Context.MODE_PRIVATE);
+        String _id = sharedPreferences.getString("_id", "");
+        favTour.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean checked = ((CheckBox)view).isChecked();
+                FavTours favTours  = new FavTours();
+                favTours.setUsuario(_id);
+                favTours.setTuristico(tour._id);
+                FavTourService favTourService = connection.getRetrofitInstance().create(FavTourService.class);
+                Call<FavoritoTourResponse> favoritoTourResponseCall = favTourService.agregarFavorito(favTours);
+                favoritoTourResponseCall.enqueue(new Callback<FavoritoTourResponse>() {
+                    @Override
+                    public void onResponse(Call<FavoritoTourResponse> call, Response<FavoritoTourResponse> response) {
+                        FavoritoTourResponse favoritoTourResponse = response.body();
+                        if(checked == true && favoritoTourResponse.ok){
+                            new KAlertDialog(view.getContext(), KAlertDialog.SUCCESS_TYPE)
+                                    .setTitleText("Agregaste un favorito!")
+                                    .setContentText("Ya puedes observar tu favorito")
+                                    .show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<FavoritoTourResponse> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
 
     }
 
@@ -80,6 +135,11 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> {
         private TextView mCalificacion;
          private TextView mURL;
          private TextView mIdTour;
+         private CheckBox mFavoritosTour;
+         private TextView mLongitud;
+         private TextView mLatitud;
+
+         private TextView mDescripcion;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -90,6 +150,12 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> {
             mCalificacion = (TextView) itemView.findViewById(R.id.calificacion);
             mURL = (TextView) itemView.findViewById(R.id.url);
             mIdTour = (TextView) itemView.findViewById(R.id.idTour);
+            mFavoritosTour = (CheckBox) itemView.findViewById(R.id.FavTour);
+
+            mDescripcion =(TextView) itemView.findViewById(R.id.DescIndividualTour);
+
+            mLatitud = (TextView) itemView.findViewById(R.id.LatTour);
+            mLongitud =(TextView) itemView.findViewById(R.id.LongTour);
             itemView.setOnClickListener(this);
         }
 
@@ -101,6 +167,9 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> {
              intent.putExtra("califiacion", mCalificacion.getText().toString());
              intent.putExtra("img", mURL.getText().toString());
              intent.putExtra("_idTour", mIdTour.getText().toString());
+             intent.putExtra("descTour",mDescripcion.getText().toString());
+             intent.putExtra("lat", mLatitud.getText().toString());
+             intent.putExtra("long",mLongitud.getText().toString());
              view.getContext().startActivity(intent);
          }
      }

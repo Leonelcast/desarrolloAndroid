@@ -9,7 +9,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.developer.kalert.KAlertDialog;
@@ -26,7 +28,9 @@ import retrofit2.Response;
 public class CommentResActivity extends AppCompatActivity {
     private TextView atrasicon;
     private Button button;
-    private EditText idUserTxt, idRestTxt, calificacionTxt, comentarioTxt;
+    private CheckBox checkBox;
+    private EditText idUserTxt, idRestTxt, comentarioTxt;
+    private RatingBar calificacionTxt;
 
     ActivityCommentResBinding binding;
     @Override
@@ -45,6 +49,18 @@ public class CommentResActivity extends AppCompatActivity {
         idRestTxt.setText(bundle.getString("_idRest"));
         calificacionTxt = findViewById(R.id.Calificacion);
         comentarioTxt = findViewById(R.id.comentarioDelRes);
+        checkBox =findViewById(R.id.comentCheck);
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean checked = ((CheckBox)view).isChecked();
+                if(checked == true){
+                    calificacionTxt.setVisibility(View.VISIBLE);
+                }else{
+                    calificacionTxt.setVisibility(View.GONE);
+                }
+            }
+        });
 
         button = findViewById(R.id.btn_comment);
         button.setOnClickListener(new View.OnClickListener() {
@@ -58,9 +74,7 @@ public class CommentResActivity extends AppCompatActivity {
                     return;
 
                 }
-                if(calificacionTxt.getText().toString().isEmpty()){
-                    calificacionTxt.setText("0.0");
-                }
+
 
                 comentar();
 
@@ -71,7 +85,7 @@ public class CommentResActivity extends AppCompatActivity {
                 ComentarioRest comentarioRest = new ComentarioRest();
                 comentarioRest.setUsuario(idUserTxt.getText().toString());
                 comentarioRest.setRestaurante(idRestTxt.getText().toString());
-                comentarioRest.setCalificacion(Double.parseDouble(calificacionTxt.getText().toString()));
+                comentarioRest.setCalificacion(Double.parseDouble(String.valueOf(calificacionTxt.getRating())));
                 comentarioRest.setComentario(comentarioTxt.getText().toString());
                 Call<ComentarioResResponse> call = comentarioResService.comentarRestaurante(comentarioRest);
                 call.enqueue(new Callback<ComentarioResResponse>() {

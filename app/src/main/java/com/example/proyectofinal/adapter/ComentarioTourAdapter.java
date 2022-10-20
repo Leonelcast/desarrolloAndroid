@@ -67,13 +67,21 @@ public class ComentarioTourAdapter extends RecyclerView.Adapter<ComentarioTourAd
         Button buttonDel = holder.mButton;
         if(comentarioTourGet.calificacionTour == null){
             comentarioTourGet.calificacionTour= 0.0;
+        }if(comentarioTourGet.calificacionTour == 0.0){
+            calificacionTextView.setText("sin calificar");
+        }else{
+            calificacionTextView.setText(comentarioTourGet.calificacionTour.toString());
         }
-        calificacionTextView.setText(comentarioTourGet.calificacionTour.toString());
+
         TextView comentarioTextView = holder.mComentario;
         comentarioTextView.setText(comentarioTourGet.comentario);
         buttonDel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Integer position = mComentarioTour.indexOf(comentarioTourGet);
+                mComentarioTour.remove(position);
+                // notifyDataSetChanged();
+                notifyItemRemoved(position);
                 ComentarioTourService comentarioTourService = connection.getRetrofitInstance().create(ComentarioTourService.class);
                 Call<ComentarioTourResponse> comentarioTourResponseCall = comentarioTourService.deleteComentarioTour(comentarioTourGet.get_idTour());
                 comentarioTourResponseCall.enqueue(new Callback<ComentarioTourResponse>() {

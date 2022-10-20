@@ -109,7 +109,7 @@ public class RestaurantFragment extends Fragment {
         restauranteSpinner.setAdapter(adapter);
         //Conexion y recycler view
         mRestauranteService = connection.getRetrofitInstance().create(RestauranteService.class);
-        Call<List<Restaurante>> resCall = mRestauranteService.getAllRestaurantes();
+        Call<List<Restaurante>> resCall = mRestauranteService.getAllRestaurantes(_id);
         resCall.enqueue(new Callback<List<Restaurante>>() {
 
             @Override

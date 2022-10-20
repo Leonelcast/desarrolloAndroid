@@ -7,20 +7,20 @@
     android:orientation="vertical"
     tools:context=".FavoritosFragment">
 
-    <FrameLayout
-        android:id="@+id/frame_layout"
+    <Spinner
+        android:id="@+id/idSpinnerResFav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/ResFavList"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.77"
+        tools:layout_editor_absoluteX="-27dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ResFavList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-
-        <TextView
-            android:layout_marginTop="300dp"
-            android:layout_width="225dp"
-            android:layout_height="250dp"
-            android:text="Los juegos del hambre"/>
-    </FrameLayout>
+        android:layout_marginTop="120dp"
+        android:layout_marginBottom="60dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

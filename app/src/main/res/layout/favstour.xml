@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="0dp">
-
-
-
     <ImageView
-        android:id="@+id/tour_img"
+        android:id="@+id/tour_imgFav"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginStart="8dp"
@@ -18,11 +14,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/nombre_tour"
+        android:id="@+id/nombre_tourFav"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/tour_img"
+        app:layout_constraintStart_toEndOf="@id/tour_imgFav"
         android:layout_marginStart="20dp"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -30,20 +26,20 @@
         android:text="Los juegos del hambre"/>
 
     <TextView
-        android:id="@+id/departamento"
+        android:id="@+id/departamento_tourFav"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/nombre_tour"
-        app:layout_constraintStart_toEndOf="@id/tour_img"
+        app:layout_constraintTop_toBottomOf="@id/nombre_tourFav"
+        app:layout_constraintStart_toEndOf="@id/tour_imgFav"
         android:text="J.K. Rowling"
         android:textSize="16sp"
         android:layout_marginStart="20dp"/>
     <TextView
-        android:id="@+id/calificacion"
+        android:id="@+id/calificacion_tourFav"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/departamento"
-        app:layout_constraintStart_toEndOf="@id/tour_img"
+        app:layout_constraintTop_toBottomOf="@id/departamento_tourFav"
+        app:layout_constraintStart_toEndOf="@id/tour_imgFav"
         android:text="J.K. Rowling"
         android:textSize="16sp"
         android:layout_marginStart="20dp"
@@ -52,57 +48,46 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/calificacion"
+        app:layout_constraintTop_toBottomOf="@id/calificacion_tourFav"
         android:width="0dp"
         android:height="0dp"
-        android:id="@+id/url"
+        android:id="@+id/urlFav"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/calificacion"
+        app:layout_constraintTop_toBottomOf="@id/calificacion_tourFav"
         android:width="0dp"
         android:height="0dp"
-        android:id="@+id/LongTour"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/calificacion"
-        android:width="0dp"
-        android:height="0dp"
-        android:id="@+id/DescIndividualTour"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/calificacion"
-        android:width="0dp"
-        android:height="0dp"
-        android:id="@+id/LatTour"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/calificacion"
-        android:width="0dp"
-        android:height="0dp"
-        android:id="@+id/idTour"
+        android:id="@+id/idTuristicoFav"
         />
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/nombre_tour"
+        app:layout_constraintTop_toBottomOf="@id/nombre_tourFav"
         android:button="@drawable/selector_item"
         app:useMaterialThemeColors="false"
         android:width="0dp"
         android:height="0dp"
-        android:id="@+id/FavTour"/>
-
+        android:id="@+id/FavTourFav"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:button="@drawable/selector_item"
+        app:useMaterialThemeColors="false"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="5dp"
+        android:drawableLeft="@drawable/ic_baseline_date_range_24"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingRight="5dp"
+        android:id="@+id/DateTour"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

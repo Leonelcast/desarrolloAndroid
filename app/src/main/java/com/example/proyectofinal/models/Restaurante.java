@@ -13,16 +13,62 @@ public class Restaurante {
     public String calificacion = "0";
     @SerializedName("img")
     public String img;
+    @SerializedName("lat")
+    public String lat;
+    @SerializedName("long")
+    public String longitud;
+    @SerializedName("descripcion")
+    public String descripcion;
+    @SerializedName("favoritos")
+    public Boolean favoritos;
+
+
 
     public Restaurante(){
 
     }
-    public Restaurante(String _id, String nombre, String departamento, String calificacion, String img){
+    public Restaurante(String _id, String nombre, String departamento, String calificacion, String img, String descripcion, String longitud, String lat, boolean favoritos){
         this._id = _id;
         this.nombre = nombre;
         this.departamento = departamento;
         this.calificacion = calificacion;
         this.img = img;
+        this.descripcion = descripcion;
+        this.longitud = longitud;
+        this.lat = lat;
+        this.favoritos = favoritos;
+    }
+
+    public Boolean getFavoritos() {
+        return favoritos;
+    }
+
+    public void setFavoritos(Boolean favoritos) {
+        this.favoritos = favoritos;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(String longitud) {
+        this.longitud = longitud;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public String get_id() {

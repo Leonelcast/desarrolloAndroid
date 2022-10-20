@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Ultima Fecha"
+        android:id="@+id/ult_fecha_res"/>
+    <item android:title="Fecha Reciente"
+        android:id="@+id/fecha_reciente_res"/>
+</menu>

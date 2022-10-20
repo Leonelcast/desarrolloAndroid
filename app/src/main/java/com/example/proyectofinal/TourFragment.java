@@ -1,5 +1,7 @@
 package com.example.proyectofinal;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -93,11 +95,12 @@ public class TourFragment extends Fragment {
         // Inflate the layout for this fragment
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_tour, container, false);
-
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyUserPrefs", Context.MODE_PRIVATE);
+        String _id = sharedPreferences.getString("_id", "");
 
         mTourService = connection.getRetrofitInstance().create(TourService.class);
 
-       Call<List<Tour>> tourCall = mTourService.getAllTuristicos();
+       Call<List<Tour>> tourCall = mTourService.getAllTuristicos(_id);
         tourSpinner = (Spinner) view.findViewById(R.id.idSpinnerTour);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity(), R.array.option_tour, android.R.layout.simple_spinner_item);

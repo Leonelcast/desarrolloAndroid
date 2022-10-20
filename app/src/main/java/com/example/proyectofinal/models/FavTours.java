@@ -2,27 +2,18 @@ package com.example.proyectofinal.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class FavRestaurantes {
+public class FavTours {
     @SerializedName("usuario")
     public String usuario;
-    @SerializedName("restaurante")
-    public String restaurante;
+    @SerializedName("turistico")
+    public String turistico;
     @SerializedName("favoritos")
     public Boolean favoritos;
     @SerializedName("date")
     public String date;
 
+    public FavTours(){
 
-    public FavRestaurantes(){
-
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
     }
 
     public String getUsuario() {
@@ -33,12 +24,12 @@ public class FavRestaurantes {
         this.usuario = usuario;
     }
 
-    public String getRestaurante() {
-        return restaurante;
+    public String getTuristico() {
+        return turistico;
     }
 
-    public void setRestaurante(String restaurante) {
-        this.restaurante = restaurante;
+    public void setTuristico(String turistico) {
+        this.turistico = turistico;
     }
 
     public Boolean getFavoritos() {
@@ -47,5 +38,13 @@ public class FavRestaurantes {
 
     public void setFavoritos(Boolean favoritos) {
         this.favoritos = favoritos;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

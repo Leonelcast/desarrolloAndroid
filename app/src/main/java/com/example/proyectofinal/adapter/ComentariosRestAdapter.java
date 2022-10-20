@@ -61,25 +61,47 @@ public class ComentariosRestAdapter extends RecyclerView.Adapter<ComentariosRest
         SharedPreferences sharedPreferences = this.context.getSharedPreferences("MyUserPrefs", Context.MODE_PRIVATE);
         String _id = sharedPreferences.getString("_id", "");
         TextView idUserTxt = holder.mId;
-        idUserTxt.setText(comentarioRest.get_id());
+        idUserTxt.setText(comentarioRest.user.get_id());
         TextView nombreUsuarioTextView = holder.mNombre;
         nombreUsuarioTextView.setText(comentarioRest.user.getNombre());
         TextView apellidoUsuarioTextView = holder.mApellido;
         apellidoUsuarioTextView.setText(comentarioRest.user.getApellido());
         TextView calificacionTextView = holder.mCalificacion;
         System.out.println(_id);
+
         Button buttonDel = holder.mButton;
+        if(_id == comentarioRest.user.get_id()){
+            buttonDel.setVisibility(View.VISIBLE);
+        }
+        System.out.println(_id);
         if(comentarioRest.calificacion == null){
             comentarioRest.calificacion= 0.0;
         }
-        calificacionTextView.setText(comentarioRest.calificacion.toString());
+        if (comentarioRest.calificacion == 0.0){
+            calificacionTextView.setText("sin calificar");
+        }else {
+            calificacionTextView.setText(comentarioRest.calificacion.toString());
+        }
+
         TextView comentarioTextView = holder.mComentario;
         comentarioTextView.setText(comentarioRest.comentario);
 
+
+
+        if(!comentarioRest.getUser().get_id().toString().equals(_id)){
+            buttonDel.setVisibility(View.INVISIBLE);
+
+        }else{
+            buttonDel.setVisibility(View.VISIBLE);
+        }
+        idUserTxt.setText(comentarioRest.user.get_id());
         buttonDel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Integer position = mComentarioRest.indexOf(comentarioRest);
+                mComentarioRest.remove(position);
+               // notifyDataSetChanged();
+                notifyItemRemoved(position);
                     ComentarioResService comentarioResService = connection.getRetrofitInstance().create(ComentarioResService.class);
                     Call<ComentarioResResponse>  comentarioResResponseCall = comentarioResService.deleteComentarioRest(comentarioRest.get_id());
                     comentarioResResponseCall.enqueue(new Callback<ComentarioResResponse>() {
@@ -91,8 +113,10 @@ public class ComentariosRestAdapter extends RecyclerView.Adapter<ComentariosRest
                                         .setTitleText("Has borrado tu comentario")
                                         .setContentText("Comentario eliminado")
                                         .show();
-                                Intent intent = new Intent(view.getContext(), MainActivity.class);
-                                view.getContext().startActivity(intent);
+                               // Intent intent = new Intent(view.getContext(), MainActivity.class);
+                               // view.getContext().startActivity(intent);
+
+
                             }
                         }
 
@@ -101,18 +125,12 @@ public class ComentariosRestAdapter extends RecyclerView.Adapter<ComentariosRest
                             Toast.makeText(view.getContext(), "error", Toast.LENGTH_SHORT).show();
                         }
                     });
+
             }
         });
 
-       /* if(idUserTxt.getText() == _id ){
-            idUserTxt.setVisibility(View.VISIBLE);
 
-        }else{
-            idUserTxt.setVisibility(View.INVISIBLE);
-        }
-        idUserTxt.setText(comentarioRest.user.get_id());
 
-*/
 
 
 

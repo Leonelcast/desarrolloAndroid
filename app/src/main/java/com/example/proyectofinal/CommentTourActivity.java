@@ -9,7 +9,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.developer.kalert.KAlertDialog;
@@ -26,7 +28,9 @@ import retrofit2.Response;
 public class CommentTourActivity extends AppCompatActivity {
     private TextView atrasicon;
     private Button button;
-    private EditText idUserTxt, idRestTxt, calificacionTxt, comentarioTxt;
+    private EditText idUserTxt, idRestTxt, comentarioTxt;
+    private CheckBox checkBox;
+    private RatingBar calificacionTxt;
     ActivityCommentTourBinding binding;
 
     @Override
@@ -46,6 +50,18 @@ public class CommentTourActivity extends AppCompatActivity {
         calificacionTxt = findViewById(R.id.CalificacionTour);
         comentarioTxt = findViewById(R.id.comentarioDelTour);
         button = findViewById(R.id.btn_commentTour);
+        checkBox = findViewById(R.id.comentCheckTour);
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean checked = ((CheckBox)view).isChecked();
+                if(checked == true){
+                    calificacionTxt.setVisibility(View.VISIBLE);
+                }else{
+                    calificacionTxt.setVisibility(View.GONE);
+                }
+            }
+        });
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,9 +73,6 @@ public class CommentTourActivity extends AppCompatActivity {
                     return;
 
                 }
-                if(calificacionTxt.getText().toString().isEmpty()){
-                    calificacionTxt.setText("0.0");
-                }
 
                 comentar();
             }
@@ -69,7 +82,7 @@ public class CommentTourActivity extends AppCompatActivity {
                 ComentarioTour comentarioTour = new ComentarioTour();
                 comentarioTour.setUsuario(idUserTxt.getText().toString());
                 comentarioTour.setTuristico(idRestTxt.getText().toString());
-                comentarioTour.setCalificacionTour(Double.parseDouble(calificacionTxt.getText().toString()));
+                comentarioTour.setCalificacionTour(Double.parseDouble(String.valueOf(calificacionTxt.getRating())));
                 comentarioTour.setComentario(comentarioTxt.getText().toString());
                 Call<ComentarioTourResponse> call = comentarioTourService.comentarTour(comentarioTour);
                 call.enqueue(new Callback<ComentarioTourResponse>() {

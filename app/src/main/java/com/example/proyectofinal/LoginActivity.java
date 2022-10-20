@@ -41,6 +41,11 @@ public class LoginActivity extends AppCompatActivity {
         button = findViewById(R.id.btn_login);
         signuptxt = findViewById(R.id.txt_signup);
         sharedPreferences = getSharedPreferences("MyUserPrefs", Context.MODE_PRIVATE);
+        String _id = sharedPreferences.getString("_id", null);
+        if(_id != null){
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+        }
         signuptxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -40,18 +40,24 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_marginTop="40dp"
-        android:text="ID"/>
+        android:text="ID"
+        android:visibility="invisible"/>
     <Button
         android:id="@+id/eliminarCommentTour"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minHeight="0dp"
         android:minWidth="0dp"
+        android:drawableLeft="@drawable/ic_baseline_delete_24"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingRight="5dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintStart_toEndOf="parent"
         android:layout_marginTop="15dp"
-        android:layout_marginStart="340dp"/>
+        android:layout_marginStart="320dp"/>
     <TextView
         android:id="@+id/CalificacionUserTour"
         android:layout_width="wrap_content"
@@ -73,7 +79,7 @@
         app:layout_constraintStart_toEndOf="parent"
         android:layout_marginStart="2dp"
         app:layout_goneMarginRight="10dp"
-        android:textSize="12sp"
+        android:textSize="20sp"
         android:layout_marginTop="70dp"
         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pretium risus sed sagittis posuere. in turpis iaculis commodo. Aenean eu magna nunc. Phasellus ac tincidunt nisi. Pellentesque efficitur urna quis neque eleifend pretium. Sed ac nulla facilisis, faucibus enim vitae, rutrum lorem."/>
 
