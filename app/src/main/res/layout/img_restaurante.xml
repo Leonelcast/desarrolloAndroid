@@ -46,6 +46,17 @@
         android:textSize="16sp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:id="@+id/restaurantetxtid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/calificacion_res"
+        app:layout_constraintStart_toEndOf="@id/res_img"
+        android:textSize="16sp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:visibility="gone"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -2,6 +2,8 @@ package com.example.proyectofinal.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class Restaurante {
     @SerializedName("_id")
     public String _id;
@@ -19,8 +21,10 @@ public class Restaurante {
     public String longitud;
     @SerializedName("descripcion")
     public String descripcion;
-    @SerializedName("favoritos")
-    public Boolean favoritos;
+   // @SerializedName("favoritos")
+   // public Boolean favoritos;
+    @SerializedName("favoritosRest")
+    public ArrayList<FavRestaurantes> favRestaurantes;
 
 
 
@@ -36,16 +40,23 @@ public class Restaurante {
         this.descripcion = descripcion;
         this.longitud = longitud;
         this.lat = lat;
-        this.favoritos = favoritos;
+        //this.favoritos = favoritos;
     }
 
-    public Boolean getFavoritos() {
+    public ArrayList<FavRestaurantes> getFavRestaurantes() {
+        return favRestaurantes;
+    }
+
+    public void setFavRestaurantes(ArrayList<FavRestaurantes> favRestaurantes) {
+        this.favRestaurantes = favRestaurantes;
+    }
+    /*  public Boolean getFavoritos() {
         return favoritos;
-    }
+    }*/
 
-    public void setFavoritos(Boolean favoritos) {
+   /* public void setFavoritos(Boolean favoritos) {
         this.favoritos = favoritos;
-    }
+    }*/
 
     public String getLat() {
         return lat;

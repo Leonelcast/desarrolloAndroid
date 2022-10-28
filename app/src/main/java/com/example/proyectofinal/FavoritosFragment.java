@@ -2,6 +2,7 @@ package com.example.proyectofinal;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -16,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 
+import com.developer.kalert.KAlertDialog;
 import com.example.proyectofinal.DTO.RestaurantesFavGet;
 import com.example.proyectofinal.adapter.FavsRestauranteAdapter;
 import com.example.proyectofinal.interfaces.FavRestauranteService;
@@ -109,15 +111,22 @@ public class FavoritosFragment extends Fragment {
             }
         });
         //llamada
+        KAlertDialog pDialog = new KAlertDialog(getContext(), KAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText("Loading");
+        pDialog.setCancelable(false);
+        pDialog.show();
         Call<List<RestaurantesFavGet>> favResCall = mRestauranteService.getFavoritos(_id);
 
         favResCall.enqueue(new Callback<List<RestaurantesFavGet>>() {
             @Override
             public void onResponse(Call<List<RestaurantesFavGet>> call, Response<List<RestaurantesFavGet>> response) {
+
                 RecyclerView rvRes = (RecyclerView) view.findViewById(R.id.ResFavList);
                 restauranteAdapter.reloadData(response.body());
                 rvRes.setLayoutManager(new LinearLayoutManager(getContext()));
                 rvRes.setAdapter(restauranteAdapter);
+                pDialog.dismissWithAnimation();
             }
 
             @Override

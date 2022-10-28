@@ -3,6 +3,7 @@ package com.example.proyectofinal.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -62,6 +63,7 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull RestauranteAdapter.ViewHolder holder, int position) {
+        
         Restaurante restaurante = mRestaurante.get(position);
         TextView tourNameTextView = holder.mNombre;
         tourNameTextView.setText(restaurante.nombre);
@@ -75,11 +77,15 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
         longitudRes.setText(restaurante.longitud);
         TextView latitudRes = holder.mLatitud;
         latitudRes.setText(restaurante.lat);
+        TextView idFavRes = holder.mFavoritosRestaurantes;
+        if(restaurante.favRestaurantes.size() >0){
+            idFavRes.setText(restaurante.favRestaurantes.get(0).get_id());
+        }
 
         if(restaurante.calificacion == null){
             restaurante.calificacion = "0";
         }
-        tourCalificacionTextView.setText(restaurante.calificacion);
+        tourCalificacionTextView.setText(restaurante.calificacion +"/5");
         TextView urlTextView = holder.mURL;
         urlTextView.setText(restaurante.img);
         TextView idRest = holder.mIdRest;
@@ -87,10 +93,10 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
         ImageView tourImg = holder.mRestauranteImage;
         Glide.with(this.context).load(restaurante.img).into(tourImg);
         CheckBox favRes = holder.mFavoritosRes;
-        if(restaurante.favoritos == true){
-            favRes.setChecked(true);
-        }else{
+        if(restaurante.favRestaurantes.size() == 0){
             favRes.setChecked(false);
+        }else{
+            favRes.setChecked(true);
         }
         SharedPreferences sharedPreferences = context.getSharedPreferences("MyUserPrefs", Context.MODE_PRIVATE);
         String _id = sharedPreferences.getString("_id", "");
@@ -99,28 +105,54 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
             @Override
             public void onClick(View view) {
                 boolean checked = ((CheckBox)view).isChecked();
-                FavRestaurantes favRestaurantes = new FavRestaurantes();
-                favRestaurantes.setUsuario(_id);
-                favRestaurantes.setRestaurante(restaurante._id);
-                FavRestauranteService favRestauranteService = connection.getRetrofitInstance().create(FavRestauranteService.class);
-                Call<FavoritoRestauranteResponse> favoritoRestauranteResponseCall = favRestauranteService.agregarFavorito(favRestaurantes);
-                favoritoRestauranteResponseCall.enqueue(new Callback<FavoritoRestauranteResponse>() {
-                    @Override
-                    public void onResponse(Call<FavoritoRestauranteResponse> call, Response<FavoritoRestauranteResponse> response) {
-                        FavoritoRestauranteResponse favoritoRestauranteResponse = response.body();
-                        if(checked == true && favoritoRestauranteResponse.ok){
-                            new KAlertDialog(view.getContext(), KAlertDialog.SUCCESS_TYPE)
-                                    .setTitleText("Agregaste un favorito!")
-                                    .setContentText("Ya puedes observar tu favorito")
-                                    .show();
+                if(checked){
+                    FavRestaurantes favRestaurantes = new FavRestaurantes();
+                    favRestaurantes.setUsuario(_id);
+                    favRestaurantes.setRestaurante(restaurante._id);
+                    FavRestauranteService favRestauranteService = connection.getRetrofitInstance().create(FavRestauranteService.class);
+                    Call<FavoritoRestauranteResponse> favoritoRestauranteResponseCall = favRestauranteService.agregarFavorito(favRestaurantes);
+                    favoritoRestauranteResponseCall.enqueue(new Callback<FavoritoRestauranteResponse>() {
+                        @Override
+                        public void onResponse(Call<FavoritoRestauranteResponse> call, Response<FavoritoRestauranteResponse> response) {
+                            FavoritoRestauranteResponse favoritoRestauranteResponse = response.body();
+                            if(checked == true && favoritoRestauranteResponse.ok){
+                                new KAlertDialog(view.getContext(), KAlertDialog.SUCCESS_TYPE)
+                                        .setTitleText("Agregaste un favorito!")
+                                        .setContentText("Ya puedes observar tu favorito")
+                                        .show();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<FavoritoRestauranteResponse> call, Throwable t) {
+                        @Override
+                        public void onFailure(Call<FavoritoRestauranteResponse> call, Throwable t) {
 
+                        }
+                    });
+                }else{
+                    if(restaurante.favRestaurantes.size() > 0){
+                        FavRestauranteService favRestauranteService = connection.getRetrofitInstance().create(FavRestauranteService.class);
+                        Call<FavoritoRestauranteResponse> favoritoRestauranteResponseCall = favRestauranteService.deleteFavRest(restaurante.favRestaurantes.get(0).get_id());
+                        favoritoRestauranteResponseCall.enqueue(new Callback<FavoritoRestauranteResponse>() {
+                            @Override
+                            public void onResponse(Call<FavoritoRestauranteResponse> call, Response<FavoritoRestauranteResponse> response) {
+                                FavoritoRestauranteResponse favoritoRestauranteResponse = response.body();
+                                if (favoritoRestauranteResponse.ok){
+                                    new KAlertDialog(view.getContext(), KAlertDialog.SUCCESS_TYPE)
+                                            .setTitleText("Has borrado un favorito")
+                                            .setContentText("Favorito eliminado")
+                                            .show();
+
+
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<FavoritoRestauranteResponse> call, Throwable t) {
+                                Toast.makeText(view.getContext(), "error", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
-                });
+                }
 
 
 
@@ -147,6 +179,7 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
         private TextView mDescripcion;
         private CheckBox mFavoritosRes;
         private Button mButton;
+        private TextView mFavoritosRestaurantes;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -160,6 +193,7 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
 
             mLatitud = (TextView) itemView.findViewById(R.id.LatRes);
             mLongitud =(TextView) itemView.findViewById(R.id.LongRes);
+            mFavoritosRestaurantes =(TextView) itemView.findViewById(R.id.restaurantetxtid);
             mFavoritosRes = (CheckBox) itemView.findViewById(R.id.FavRes);
 
             itemView.setOnClickListener(this);
@@ -178,6 +212,7 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
             intent.putExtra("descRes",mDescripcion.getText().toString());
             intent.putExtra("lat", mLatitud.getText().toString());
             intent.putExtra("long",mLongitud.getText().toString());
+            intent.putExtra("idFav", mFavoritosRestaurantes.getText().toString());
             view.getContext().startActivity(intent);
         }
     }

@@ -31,6 +31,7 @@ public class CommentResActivity extends AppCompatActivity {
     private CheckBox checkBox;
     private EditText idUserTxt, idRestTxt, comentarioTxt;
     private RatingBar calificacionTxt;
+    private String nombre, departamento, calificacion, url, descripcion, lat, longitud, idfavRes;
 
     ActivityCommentResBinding binding;
     @Override
@@ -40,6 +41,14 @@ public class CommentResActivity extends AppCompatActivity {
         binding = ActivityCommentResBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         Bundle bundle = getIntent().getExtras();
+        nombre = bundle.getString("nombre");
+        departamento = bundle.getString("departamento");
+        calificacion = bundle.getString("califiacion");
+        idfavRes = bundle.getString("idFav");
+        url = bundle.getString("img");
+        descripcion = bundle.getString("descRes");
+        lat = bundle.getString("lat");
+        longitud = bundle.getString("long");
         SharedPreferences sharedPreferences = getSharedPreferences("MyUserPrefs", Context.MODE_PRIVATE);
         String _id = sharedPreferences.getString("_id", "");
         idUserTxt = findViewById(R.id.usuarioId);
@@ -50,6 +59,7 @@ public class CommentResActivity extends AppCompatActivity {
         calificacionTxt = findViewById(R.id.Calificacion);
         comentarioTxt = findViewById(R.id.comentarioDelRes);
         checkBox =findViewById(R.id.comentCheck);
+
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,7 +110,16 @@ public class CommentResActivity extends AppCompatActivity {
                             pDialog.setCancelable(false);
                             pDialog.show();
 
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), DescriptionResActivity.class);
+                            intent.putExtra("_idRest", idRestTxt.getText().toString());
+                            intent.putExtra("nombre", nombre);
+                            intent.putExtra("departamento", departamento);
+                            intent.putExtra("califiacion", calificacion);
+                            intent.putExtra("img",url);
+                            intent.putExtra("descRes",descripcion);
+                            intent.putExtra("lat",lat);
+                            intent.putExtra("long",longitud);
+                            intent.putExtra("idFav",idfavRes );
                             startActivity(intent);
                         }else {
                             new KAlertDialog(CommentResActivity.this, KAlertDialog.ERROR_TYPE)

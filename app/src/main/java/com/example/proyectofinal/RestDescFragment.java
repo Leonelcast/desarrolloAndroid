@@ -1,22 +1,36 @@
 package com.example.proyectofinal;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.developer.kalert.KAlertDialog;
+import com.example.proyectofinal.DTO.FavoritoRestauranteResponse;
 import com.example.proyectofinal.databinding.FragmentRestDescBinding;
+import com.example.proyectofinal.interfaces.FavRestauranteService;
+import com.example.proyectofinal.models.FavRestaurantes;
+import com.example.proyectofinal.retrofit.connection;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -64,9 +78,21 @@ public class RestDescFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+    }
     FragmentRestDescBinding binding;
-    private TextView txtNombre, txtDepartamento, txtDescripcion, txtcalificacion;
+    private TextView txtNombre, txtDepartamento, txtDescripcion, txtcalificacion, atras;
     private Button buttonMaps, Waze;
+    private CheckBox checkBox;
     @Override
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,22 +102,93 @@ public class RestDescFragment extends Fragment {
           View view = inflater.inflate(R.layout.fragment_rest_desc, container, false);
           binding = FragmentRestDescBinding.inflate(getLayoutInflater());
           binding.getRoot();
-          Bundle bundle = getActivity().getIntent().getExtras();
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyUserPrefs", Context.MODE_PRIVATE);
+        String _id = sharedPreferences.getString("_id", "");
+
+        Bundle bundle = getActivity().getIntent().getExtras();
           txtNombre = view.findViewById(R.id.NombreResDesc);
-          txtNombre.setText(bundle.getString("nombre"));
+          txtNombre.setText("Nombre del Restaurante:"+" "+bundle.getString("nombre"));
           txtDepartamento = view.findViewById(R.id.DescResDep);
-          txtDepartamento.setText(bundle.getString("departamento"));
+          txtDepartamento.setText("Departamento:"+ " "+bundle.getString("departamento"));
         txtcalificacion = view.findViewById(R.id.DescCalificacion);
-        txtcalificacion.setText(bundle.getString("califiacion"));
+        txtcalificacion.setText( "Calificacion:"+" "+bundle.getString("califiacion"));
         txtDescripcion = view.findViewById(R.id.DescRestaurante);
-        txtDescripcion.setText(bundle.getString("descRes"));
+        txtDescripcion.setText("Descripcion:"+" "+ bundle.getString("descRes"));
           CollapsingToolbarLayout toolbarLayout = view.findViewById(R.id.collapsing_toolbar);
           toolbarLayout.setTitle(bundle.getString("nombre"));
           toolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
           toolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
           ImageView detailImage = view.findViewById(R.id.res_detail_img);
           Glide.with(this).load(bundle.getString("img")).into(detailImage);
+          atras = view.findViewById(R.id.atrasDescRes);
+          atras.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                  Intent intent = new Intent(getContext(), MainActivity.class);
+                  startActivity(intent);
+              }
+          });
           buttonMaps = view.findViewById(R.id.MapsRest);
+          checkBox = view.findViewById(R.id.FavResDesc);
+          if(bundle.get("idFav").toString().isEmpty()){
+              checkBox.setChecked(false);
+          }else{
+              checkBox.setChecked(true);
+          }
+          checkBox.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                  boolean checked = ((CheckBox)view).isChecked();
+                  if(checked){
+                      FavRestaurantes favRestaurantes = new FavRestaurantes();
+                      favRestaurantes.setUsuario(_id);
+                      favRestaurantes.setRestaurante(bundle.getString("_idRest"));
+                      FavRestauranteService favRestauranteService = connection.getRetrofitInstance().create(FavRestauranteService.class);
+                      Call<FavoritoRestauranteResponse> favoritoRestauranteResponseCall = favRestauranteService.agregarFavorito(favRestaurantes);
+                      favoritoRestauranteResponseCall.enqueue(new Callback<FavoritoRestauranteResponse>() {
+                          @Override
+                          public void onResponse(Call<FavoritoRestauranteResponse> call, Response<FavoritoRestauranteResponse> response) {
+                              FavoritoRestauranteResponse favoritoRestauranteResponse = response.body();
+                              if(checked == true && favoritoRestauranteResponse.ok){
+                                  new KAlertDialog(view.getContext(), KAlertDialog.SUCCESS_TYPE)
+                                          .setTitleText("Agregaste un favorito!")
+                                          .setContentText("Ya puedes observar tu favorito")
+                                          .show();
+                              }
+                          }
+
+                          @Override
+                          public void onFailure(Call<FavoritoRestauranteResponse> call, Throwable t) {
+
+                          }
+                      });
+                  }else{
+                          FavRestauranteService favRestauranteService = connection.getRetrofitInstance().create(FavRestauranteService.class);
+                          Call<FavoritoRestauranteResponse> favoritoRestauranteResponseCall = favRestauranteService.deleteFavRest(bundle.getString("idFav"));
+                          favoritoRestauranteResponseCall.enqueue(new Callback<FavoritoRestauranteResponse>() {
+                              @Override
+                              public void onResponse(Call<FavoritoRestauranteResponse> call, Response<FavoritoRestauranteResponse> response) {
+                                  FavoritoRestauranteResponse favoritoRestauranteResponse = response.body();
+                                  if (favoritoRestauranteResponse.ok){
+                                      new KAlertDialog(view.getContext(), KAlertDialog.SUCCESS_TYPE)
+                                              .setTitleText("Has borrado un favorito")
+                                              .setContentText("Favorito eliminado")
+                                              .show();
+
+
+                                  }
+                              }
+
+                              @Override
+                              public void onFailure(Call<FavoritoRestauranteResponse> call, Throwable t) {
+                                  Toast.makeText(view.getContext(), "error", Toast.LENGTH_SHORT).show();
+                              }
+                          });
+                      }
+                  }
+
+          });
+
           Waze = view.findViewById(R.id.WazeRest);
           buttonMaps.setOnClickListener(new View.OnClickListener() {
               @Override

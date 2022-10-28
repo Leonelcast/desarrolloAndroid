@@ -2,6 +2,7 @@ package com.example.proyectofinal;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.developer.kalert.KAlertDialog;
 import com.example.proyectofinal.adapter.RestauranteAdapter;
 import com.example.proyectofinal.interfaces.RestauranteService;
 import com.example.proyectofinal.models.Restaurante;
@@ -98,7 +100,11 @@ public class RestaurantFragment extends Fragment {
         TextView t1;
 
         View view = inflater.inflate(R.layout.fragment_restaurant, container, false);
-
+        KAlertDialog pDialog = new KAlertDialog(getContext(), KAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText("Loading");
+        pDialog.setCancelable(false);
+        pDialog.show();
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyUserPrefs", Context.MODE_PRIVATE);
         String _id = sharedPreferences.getString("_id", "");
@@ -114,11 +120,14 @@ public class RestaurantFragment extends Fragment {
 
             @Override
             public void onResponse(Call<List<Restaurante>> call, Response<List<Restaurante>> response) {
+
                 RecyclerView rvRes = (RecyclerView) view.findViewById(R.id.ResList);
 
                 restauranteAdapter.reloadData(response.body());
                 rvRes.setLayoutManager(new LinearLayoutManager(getContext()));
                 rvRes.setAdapter(restauranteAdapter);
+                pDialog.dismissWithAnimation();
+
             }
 
             @Override

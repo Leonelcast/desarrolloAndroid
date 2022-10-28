@@ -31,6 +31,7 @@ public class CommentTourActivity extends AppCompatActivity {
     private EditText idUserTxt, idRestTxt, comentarioTxt;
     private CheckBox checkBox;
     private RatingBar calificacionTxt;
+    private String nombre, departamento, calificacion, url, descripcion, lat, longitud, idfavTour;
     ActivityCommentTourBinding binding;
 
     @Override
@@ -40,6 +41,14 @@ public class CommentTourActivity extends AppCompatActivity {
         binding = ActivityCommentTourBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         Bundle bundle = getIntent().getExtras();
+        nombre = bundle.getString("nombre");
+        departamento = bundle.getString("departamento");
+        calificacion = bundle.getString("califiacion");
+        idfavTour = bundle.getString("idFavTour");
+        url = bundle.getString("img");
+        descripcion = bundle.getString("descTour");
+        lat = bundle.getString("lat");
+        longitud = bundle.getString("long");
         SharedPreferences sharedPreferences = getSharedPreferences("MyUserPrefs", Context.MODE_PRIVATE);
         String _id = sharedPreferences.getString("_id", "");
         idUserTxt = findViewById(R.id.usuarioIdTour);
@@ -96,7 +105,16 @@ public class CommentTourActivity extends AppCompatActivity {
                             pDialog.setCancelable(false);
                             pDialog.show();
 
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), TourDescActivity.class);
+                            intent.putExtra("_idTour", idRestTxt.getText().toString());
+                            intent.putExtra("nombre", nombre);
+                            intent.putExtra("departamento", departamento);
+                            intent.putExtra("califiacion", calificacion);
+                            intent.putExtra("img",url);
+                            intent.putExtra("descTour",descripcion);
+                            intent.putExtra("lat",lat);
+                            intent.putExtra("long",longitud);
+                            intent.putExtra("idFavTour",idfavTour );
                             startActivity(intent);
                         }else{
                             new KAlertDialog(CommentTourActivity.this, KAlertDialog.ERROR_TYPE)

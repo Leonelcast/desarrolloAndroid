@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -77,7 +78,7 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> {
         if(tour.calificacion == null){
             tour.calificacion = "0";
         }
-        tourCalificacionTextView.setText(tour.calificacion);
+        tourCalificacionTextView.setText(tour.calificacion+"/5");
         TextView urlTextView = holder.mURL;
         urlTextView.setText(tour.img);
         ImageView tourImg = holder.mTourImage;
@@ -85,10 +86,14 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> {
         idRest.setText(tour._id);
         Glide.with(this.context).load(tour.img).into(tourImg);
         CheckBox favTour = holder.mFavoritosTour;
-        if(tour.favoritos == true){
-            favTour.setChecked(true);
-        }else{
+        if(tour.favTours.size() == 0){
             favTour.setChecked(false);
+        }else{
+            favTour.setChecked(true);
+        }
+        TextView idFavTour = holder.mFavoritosTourID;
+        if (tour.favTours.size() > 0){
+            idFavTour.setText(tour.favTours.get(0).get_id());
         }
         SharedPreferences sharedPreferences = context.getSharedPreferences("MyUserPrefs", Context.MODE_PRIVATE);
         String _id = sharedPreferences.getString("_id", "");
@@ -96,28 +101,54 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> {
             @Override
             public void onClick(View view) {
                 boolean checked = ((CheckBox)view).isChecked();
-                FavTours favTours  = new FavTours();
-                favTours.setUsuario(_id);
-                favTours.setTuristico(tour._id);
-                FavTourService favTourService = connection.getRetrofitInstance().create(FavTourService.class);
-                Call<FavoritoTourResponse> favoritoTourResponseCall = favTourService.agregarFavorito(favTours);
-                favoritoTourResponseCall.enqueue(new Callback<FavoritoTourResponse>() {
-                    @Override
-                    public void onResponse(Call<FavoritoTourResponse> call, Response<FavoritoTourResponse> response) {
-                        FavoritoTourResponse favoritoTourResponse = response.body();
-                        if(checked == true && favoritoTourResponse.ok){
-                            new KAlertDialog(view.getContext(), KAlertDialog.SUCCESS_TYPE)
-                                    .setTitleText("Agregaste un favorito!")
-                                    .setContentText("Ya puedes observar tu favorito")
-                                    .show();
+                if(checked){
+                    FavTours favTours  = new FavTours();
+                    favTours.setUsuario(_id);
+                    favTours.setTuristico(tour._id);
+                    FavTourService favTourService = connection.getRetrofitInstance().create(FavTourService.class);
+                    Call<FavoritoTourResponse> favoritoTourResponseCall = favTourService.agregarFavorito(favTours);
+                    favoritoTourResponseCall.enqueue(new Callback<FavoritoTourResponse>() {
+                        @Override
+                        public void onResponse(Call<FavoritoTourResponse> call, Response<FavoritoTourResponse> response) {
+                            FavoritoTourResponse favoritoTourResponse = response.body();
+                            if(checked == true && favoritoTourResponse.ok){
+                                new KAlertDialog(view.getContext(), KAlertDialog.SUCCESS_TYPE)
+                                        .setTitleText("Agregaste un favorito!")
+                                        .setContentText("Ya puedes observar tu favorito")
+                                        .show();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<FavoritoTourResponse> call, Throwable t) {
+                        @Override
+                        public void onFailure(Call<FavoritoTourResponse> call, Throwable t) {
 
+                        }
+                    });
+                }else{
+                    if(tour.favTours.size()>0){
+                        FavTourService favTourService = connection.getRetrofitInstance().create(FavTourService.class);
+                        Call<FavoritoTourResponse> favoritoTourResponseCall = favTourService.deleteFavRest(tour.favTours.get(0).get_id());
+                        favoritoTourResponseCall.enqueue(new Callback<FavoritoTourResponse>() {
+                            @Override
+                            public void onResponse(Call<FavoritoTourResponse> call, Response<FavoritoTourResponse> response) {
+                                FavoritoTourResponse favoritoTourResponse = response.body();
+                                if(favoritoTourResponse.ok){
+                                    new KAlertDialog(view.getContext(), KAlertDialog.SUCCESS_TYPE)
+                                            .setTitleText("Has borrado un favorito")
+                                            .setContentText("Favorito eliminado")
+                                            .show();
+
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<FavoritoTourResponse> call, Throwable t) {
+                                Toast.makeText(view.getContext(), "error", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
-                });
+                }
+
             }
         });
 
@@ -138,6 +169,7 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> {
          private CheckBox mFavoritosTour;
          private TextView mLongitud;
          private TextView mLatitud;
+         private TextView mFavoritosTourID;
 
          private TextView mDescripcion;
 
@@ -153,6 +185,7 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> {
             mFavoritosTour = (CheckBox) itemView.findViewById(R.id.FavTour);
 
             mDescripcion =(TextView) itemView.findViewById(R.id.DescIndividualTour);
+            mFavoritosTourID = (TextView) itemView.findViewById(R.id.tourtxtid);
 
             mLatitud = (TextView) itemView.findViewById(R.id.LatTour);
             mLongitud =(TextView) itemView.findViewById(R.id.LongTour);
@@ -170,6 +203,7 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> {
              intent.putExtra("descTour",mDescripcion.getText().toString());
              intent.putExtra("lat", mLatitud.getText().toString());
              intent.putExtra("long",mLongitud.getText().toString());
+             intent.putExtra("idFavTour", mFavoritosTourID.getText().toString());
              view.getContext().startActivity(intent);
          }
      }

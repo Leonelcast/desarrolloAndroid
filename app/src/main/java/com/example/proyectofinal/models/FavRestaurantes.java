@@ -3,6 +3,8 @@ package com.example.proyectofinal.models;
 import com.google.gson.annotations.SerializedName;
 
 public class FavRestaurantes {
+    @SerializedName("_id")
+    public String _id;
     @SerializedName("usuario")
     public String usuario;
     @SerializedName("restaurante")
@@ -15,6 +17,14 @@ public class FavRestaurantes {
 
     public FavRestaurantes(){
 
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public String getDate() {

@@ -20,6 +20,7 @@ import com.example.proyectofinal.models.FavTours;
 import com.example.proyectofinal.retrofit.connection;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -56,6 +57,7 @@ public class FechaFavTourActivity extends AppCompatActivity {
                         SelectDate.setText(date);
                     }
                 }, year, month, day);
+                dialog.getDatePicker().setMaxDate(new Date().getTime());
                 dialog.show();
             }
         });

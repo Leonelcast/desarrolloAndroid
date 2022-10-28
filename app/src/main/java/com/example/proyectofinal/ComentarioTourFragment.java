@@ -1,6 +1,7 @@
 package com.example.proyectofinal;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.developer.kalert.KAlertDialog;
 import com.example.proyectofinal.DTO.ComentarioTourGet;
 import com.example.proyectofinal.adapter.ComentarioTourAdapter;
 import com.example.proyectofinal.databinding.FragmentComentarioTourBinding;
@@ -75,6 +77,7 @@ public class ComentarioTourFragment extends Fragment {
     private Button button;
     private FragmentComentarioTourBinding binding;
     private TextView urlText;
+    private String nombre, departamento, calificacion, url, descripcion, lat, longitud, idfavtour;
     private ComentarioTourService mComentarioTourService;
     private List<ComentarioTourGet> mComentarioTourGet;
     private ComentarioTourAdapter comentarioTourAdapter = new ComentarioTourAdapter(new ArrayList<>());
@@ -89,17 +92,32 @@ public class ComentarioTourFragment extends Fragment {
         urlText = view.findViewById(R.id.pruebaTour);
         urlText.setText(bundle.getString("_idTour"));
         button = view.findViewById(R.id.comentarioTour);
+        nombre = bundle.getString("nombre");
+        departamento = bundle.getString("departamento");
+        calificacion = bundle.getString("califiacion");
+        url = bundle.getString("img");
+        descripcion = bundle.getString("descTour");
+        lat = bundle.getString("lat");
+        longitud = bundle.getString("long");
+        idfavtour = bundle.getString("idFavTour");
 
         mComentarioTourService = connection.getRetrofitInstance().create(ComentarioTourService.class);
         Call<List<ComentarioTourGet>> commentTourGet = mComentarioTourService.getComentarioTour(bundle.getString("_idTour"));
+        KAlertDialog pDialog = new KAlertDialog(getContext(), KAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText("Loading");
+        pDialog.setCancelable(false);
+        pDialog.show();
         commentTourGet.enqueue(new Callback<List<ComentarioTourGet>>() {
             @Override
             public void onResponse(Call<List<ComentarioTourGet>> call, Response<List<ComentarioTourGet>> response) {
+
                 RecyclerView rvTourComment = (RecyclerView) view.findViewById(R.id.CommentTourList);
                 comentarioTourAdapter = new ComentarioTourAdapter((new ArrayList<>()));
                 comentarioTourAdapter.reloadData(response.body());
                 rvTourComment.setLayoutManager(new LinearLayoutManager(getContext()));
                 rvTourComment.setAdapter(comentarioTourAdapter);
+                pDialog.dismissWithAnimation();
             }
 
             @Override
@@ -112,6 +130,14 @@ public class ComentarioTourFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), CommentTourActivity.class);
                 intent.putExtra("_idTour", urlText.getText().toString());
+                intent.putExtra("nombre", nombre);
+                intent.putExtra("departamento", departamento);
+                intent.putExtra("califiacion", calificacion);
+                intent.putExtra("img", url);
+                intent.putExtra("descTour",descripcion);
+                intent.putExtra("lat", lat);
+                intent.putExtra("long",longitud);
+                intent.putExtra("idFavTour", idfavtour);
                 startActivity(intent);
             }
         });

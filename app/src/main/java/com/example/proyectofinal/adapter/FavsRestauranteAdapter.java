@@ -107,7 +107,9 @@ public class FavsRestauranteAdapter extends RecyclerView.Adapter<FavsRestaurante
                                     .setContentText("Favorito eliminado")
                                     .show();
 
-
+                            mRestaurante.remove(holder.getAbsoluteAdapterPosition());
+                            notifyItemRemoved(holder.getAbsoluteAdapterPosition());
+                            notifyDataSetChanged();
 
                         }
                         Integer position = mRestaurante.indexOf(favRestaurantes);
@@ -160,14 +162,14 @@ public class FavsRestauranteAdapter extends RecyclerView.Adapter<FavsRestaurante
             Collections.sort(mRestaurante, new Comparator<RestaurantesFavGet>() {
                 @Override
                 public int compare(RestaurantesFavGet r1, RestaurantesFavGet r2) {
-                    return r1.getDate().compareTo(r2.getDate());
+                    return r2.getDate().compareTo(r1.getDate());
                 }
             });
         } if(position == 1){
             Collections.sort(mRestaurante, new Comparator<RestaurantesFavGet>() {
                 @Override
                 public int compare(RestaurantesFavGet r1, RestaurantesFavGet r2) {
-                    return r2.getDate().compareTo(r1.getDate());
+                    return r1.getDate().compareTo(r2.getDate());
                 }
             });
         }

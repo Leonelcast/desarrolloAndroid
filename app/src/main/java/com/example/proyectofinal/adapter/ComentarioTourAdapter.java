@@ -73,15 +73,18 @@ public class ComentarioTourAdapter extends RecyclerView.Adapter<ComentarioTourAd
             calificacionTextView.setText(comentarioTourGet.calificacionTour.toString());
         }
 
+
+        if(!comentarioTourGet.getUser().get_id().toString().equals(_id)){
+            buttonDel.setVisibility(View.INVISIBLE);
+        }else{
+            buttonDel.setVisibility(View.VISIBLE);
+        }
+
         TextView comentarioTextView = holder.mComentario;
         comentarioTextView.setText(comentarioTourGet.comentario);
         buttonDel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Integer position = mComentarioTour.indexOf(comentarioTourGet);
-                mComentarioTour.remove(position);
-                // notifyDataSetChanged();
-                notifyItemRemoved(position);
                 ComentarioTourService comentarioTourService = connection.getRetrofitInstance().create(ComentarioTourService.class);
                 Call<ComentarioTourResponse> comentarioTourResponseCall = comentarioTourService.deleteComentarioTour(comentarioTourGet.get_idTour());
                 comentarioTourResponseCall.enqueue(new Callback<ComentarioTourResponse>() {
@@ -93,8 +96,11 @@ public class ComentarioTourAdapter extends RecyclerView.Adapter<ComentarioTourAd
                                     .setTitleText("Has borrado tu comentario")
                                     .setContentText("Comentario eliminado")
                                     .show();
-                            Intent intent = new Intent(view.getContext(), MainActivity.class);
-                            view.getContext().startActivity(intent);
+                           /* Intent intent = new Intent(view.getContext(), MainActivity.class);
+                            view.getContext().startActivity(intent);*/
+                            mComentarioTour.remove(holder.getAbsoluteAdapterPosition());
+                            notifyItemRemoved(holder.getAbsoluteAdapterPosition());
+                            notifyDataSetChanged();
                         }
                     }
 

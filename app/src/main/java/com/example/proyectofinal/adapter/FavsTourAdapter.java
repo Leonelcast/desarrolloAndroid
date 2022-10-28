@@ -99,6 +99,9 @@ public class FavsTourAdapter extends RecyclerView.Adapter<FavsTourAdapter.ViewHo
                                     .setTitleText("Has borrado un favorito")
                                     .setContentText("Favorito eliminado")
                                     .show();
+                            mTours.remove(holder.getAbsoluteAdapterPosition());
+                            notifyItemRemoved(holder.getAbsoluteAdapterPosition());
+                            notifyDataSetChanged();
                         }
                     }
 
@@ -145,14 +148,14 @@ public class FavsTourAdapter extends RecyclerView.Adapter<FavsTourAdapter.ViewHo
             Collections.sort(mTours, new Comparator<TourFavGet>() {
                 @Override
                 public int compare(TourFavGet r1, TourFavGet r2) {
-                    return r1.getDate().compareTo(r2.getDate());
+                    return r2.getDate().compareTo(r1.getDate());
                 }
             });
         }if(position == 1){
             Collections.sort(mTours, new Comparator<TourFavGet>() {
                 @Override
                 public int compare(TourFavGet r1, TourFavGet r2) {
-                    return r2.getDate().compareTo(r1.getDate());
+                    return r1.getDate().compareTo(r2.getDate());
                 }
             });
         }

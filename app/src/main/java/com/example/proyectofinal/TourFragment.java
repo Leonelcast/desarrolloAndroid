@@ -2,6 +2,7 @@ package com.example.proyectofinal;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.developer.kalert.KAlertDialog;
 import com.example.proyectofinal.adapter.TourAdapter;
 import com.example.proyectofinal.interfaces.TourService;
 import com.example.proyectofinal.interfaces.UserService;
@@ -67,7 +69,7 @@ public class TourFragment extends Fragment {
     private List<Tour> mTour;
     private TourService mTourService;
     private Button button, ordPopcal, nombreAs, nombreDes, depAS, depDes;
-    private TourAdapter tourAdapter;
+    private TourAdapter tourAdapter = new TourAdapter(new ArrayList<>());
     Spinner tourSpinner;
     // TODO: Rename and change types and number of parameters
     public static TourFragment newInstance(String param1, String param2) {
@@ -133,14 +135,22 @@ public class TourFragment extends Fragment {
 
             }
         });
+        KAlertDialog pDialog = new KAlertDialog(getContext(), KAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText("Loading");
+        pDialog.setCancelable(false);
+        pDialog.show();
         tourCall.enqueue(new Callback<List<Tour>>() {
             @Override
             public void onResponse(Call<List<Tour>> call, Response<List<Tour>> response) {
+
+
                 RecyclerView rvTour = (RecyclerView) view.findViewById(R.id.tourList);
-                tourAdapter = new TourAdapter(new ArrayList<>());
                 tourAdapter.reloadData(response.body());
                 rvTour.setLayoutManager(new LinearLayoutManager(getContext()));
                 rvTour.setAdapter(tourAdapter);
+
+                pDialog.dismissWithAnimation();
 
 
 

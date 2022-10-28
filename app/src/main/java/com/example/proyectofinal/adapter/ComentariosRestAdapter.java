@@ -98,10 +98,7 @@ public class ComentariosRestAdapter extends RecyclerView.Adapter<ComentariosRest
         buttonDel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Integer position = mComentarioRest.indexOf(comentarioRest);
-                mComentarioRest.remove(position);
-               // notifyDataSetChanged();
-                notifyItemRemoved(position);
+
                     ComentarioResService comentarioResService = connection.getRetrofitInstance().create(ComentarioResService.class);
                     Call<ComentarioResResponse>  comentarioResResponseCall = comentarioResService.deleteComentarioRest(comentarioRest.get_id());
                     comentarioResResponseCall.enqueue(new Callback<ComentarioResResponse>() {
@@ -113,9 +110,9 @@ public class ComentariosRestAdapter extends RecyclerView.Adapter<ComentariosRest
                                         .setTitleText("Has borrado tu comentario")
                                         .setContentText("Comentario eliminado")
                                         .show();
-                               // Intent intent = new Intent(view.getContext(), MainActivity.class);
-                               // view.getContext().startActivity(intent);
-
+                                mComentarioRest.remove(holder.getAbsoluteAdapterPosition());
+                                notifyItemRemoved(holder.getAbsoluteAdapterPosition());
+                                notifyDataSetChanged();
 
                             }
                         }

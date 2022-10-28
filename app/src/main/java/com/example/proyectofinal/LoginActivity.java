@@ -85,6 +85,11 @@ public class LoginActivity extends AppCompatActivity {
                     UserResponse userResponse = response.body();
                     if (userResponse.ok){
                         editor.putString("_id", userResponse.usuario.get_id());
+                        editor.putString("nombre", userResponse.usuario.getNombre());
+                        editor.putString("apellido", userResponse.usuario.getApellido());
+                        editor.putString("email", userResponse.usuario.getEmail());
+                        editor.putString("nacionalidad", userResponse.usuario.getNacionalidad());
+                        editor.putString("telefono", userResponse.usuario.getNumero());
                         editor.commit();
                         KAlertDialog pDialog = new KAlertDialog(LoginActivity.this, KAlertDialog.PROGRESS_TYPE);
                         pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
@@ -95,6 +100,13 @@ public class LoginActivity extends AppCompatActivity {
                         startActivity(intent);
 
                     }else{
+                        KAlertDialog pDialog = new KAlertDialog(LoginActivity.this, KAlertDialog.PROGRESS_TYPE);
+                        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                        pDialog.setTitleText("Loading");
+                        pDialog.setCancelable(false);
+                        pDialog.show();
+                        pDialog.dismissWithAnimation();
+
                         new KAlertDialog(LoginActivity.this, KAlertDialog.ERROR_TYPE)
                                 .setTitleText("Error...")
                                 .setContentText(userResponse.msg)

@@ -19,6 +19,7 @@ import com.example.proyectofinal.models.FavRestaurantes;
 import com.example.proyectofinal.retrofit.connection;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -59,6 +60,7 @@ public class FechaFavRestauranteActivity extends AppCompatActivity {
                         SelectDate.setText(date);
                     }
                 }, year, month, day);
+                dialog.getDatePicker().setMaxDate(new Date().getTime());
                 dialog.show();
             }
         });

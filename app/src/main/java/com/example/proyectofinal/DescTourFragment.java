@@ -1,22 +1,36 @@
 package com.example.proyectofinal;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.developer.kalert.KAlertDialog;
+import com.example.proyectofinal.DTO.FavoritoTourResponse;
 import com.example.proyectofinal.databinding.FragmentDescTourBinding;
+import com.example.proyectofinal.interfaces.FavTourService;
+import com.example.proyectofinal.models.FavTours;
+import com.example.proyectofinal.retrofit.connection;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -64,8 +78,20 @@ public class DescTourFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    private TextView txtNombre, txtDepartamento, txtDescripcion, txtcalificacion;
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+    }
+    private TextView txtNombre, txtDepartamento, txtDescripcion, txtcalificacion, atras;
     private Button buttonMaps, Waze;
+    private CheckBox checkBox;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,15 +100,17 @@ public class DescTourFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_desc_tour, container, false);
         binding = FragmentDescTourBinding.inflate(getLayoutInflater());
         binding.getRoot();
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyUserPrefs", Context.MODE_PRIVATE);
+        String _id = sharedPreferences.getString("_id", "");
         Bundle bundle = getActivity().getIntent().getExtras();
         txtNombre = view.findViewById(R.id.NombreTourDesc);
-        txtNombre.setText(bundle.getString("nombre"));
+        txtNombre.setText("Nombre del lugar turistico:"+" "+bundle.getString("nombre"));
         txtDepartamento = view.findViewById(R.id.DescTourDep);
-        txtDepartamento.setText(bundle.getString("departamento"));
+        txtDepartamento.setText("Departamento:"+" "+bundle.getString("departamento"));
         txtcalificacion = view.findViewById(R.id.DescTourCalificacion);
-        txtcalificacion.setText(bundle.getString("califiacion"));
+        txtcalificacion.setText("Calificacion:"+" "+bundle.getString("califiacion"));
         txtDescripcion = view.findViewById(R.id.DescTour);
-        txtDescripcion.setText(bundle.getString("descTour"));
+        txtDescripcion.setText("Descripcion:"+" "+bundle.getString("descTour"));
         CollapsingToolbarLayout toolbarLayout = view.findViewById(R.id.collapsing_toolbarTour);
         toolbarLayout.setTitle(bundle.getString("nombre"));
         toolbarLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
@@ -91,6 +119,71 @@ public class DescTourFragment extends Fragment {
         Glide.with(this).load(bundle.getString("img")).into(detailImage);
         buttonMaps = view.findViewById(R.id.MapsTour);
         Waze = view.findViewById(R.id.WazeTour);
+        checkBox = view.findViewById(R.id.FavTourDesc);
+        atras = view.findViewById(R.id.atrasDescTour);
+        atras.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+        if(bundle.get("idFavTour").toString().isEmpty()){
+            checkBox.setChecked(false);
+        }else{
+            checkBox.setChecked(true);
+        }
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean checked = ((CheckBox)view).isChecked();
+                if(checked){
+                    FavTours favTours  = new FavTours();
+                    favTours.setUsuario(_id);
+                    favTours.setTuristico(bundle.getString("_idTour"));
+                    FavTourService favTourService = connection.getRetrofitInstance().create(FavTourService.class);
+                    Call<FavoritoTourResponse> favoritoTourResponseCall = favTourService.agregarFavorito(favTours);
+                    favoritoTourResponseCall.enqueue(new Callback<FavoritoTourResponse>() {
+                        @Override
+                        public void onResponse(Call<FavoritoTourResponse> call, Response<FavoritoTourResponse> response) {
+                            FavoritoTourResponse favoritoTourResponse = response.body();
+                            if(checked == true && favoritoTourResponse.ok){
+                                new KAlertDialog(view.getContext(), KAlertDialog.SUCCESS_TYPE)
+                                        .setTitleText("Agregaste un favorito!")
+                                        .setContentText("Ya puedes observar tu favorito")
+                                        .show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<FavoritoTourResponse> call, Throwable t) {
+
+                        }
+                    });
+                }else{
+                        FavTourService favTourService = connection.getRetrofitInstance().create(FavTourService.class);
+                        Call<FavoritoTourResponse> favoritoTourResponseCall = favTourService.deleteFavRest(bundle.getString("idFavTour"));
+                        favoritoTourResponseCall.enqueue(new Callback<FavoritoTourResponse>() {
+                            @Override
+                            public void onResponse(Call<FavoritoTourResponse> call, Response<FavoritoTourResponse> response) {
+                                FavoritoTourResponse favoritoTourResponse = response.body();
+                                if(favoritoTourResponse.ok){
+                                    new KAlertDialog(view.getContext(), KAlertDialog.SUCCESS_TYPE)
+                                            .setTitleText("Has borrado un favorito")
+                                            .setContentText("Favorito eliminado")
+                                            .show();
+
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<FavoritoTourResponse> call, Throwable t) {
+                                Toast.makeText(view.getContext(), "error", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+            }
+        });
         buttonMaps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

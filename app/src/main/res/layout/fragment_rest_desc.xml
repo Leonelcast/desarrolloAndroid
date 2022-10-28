@@ -23,6 +23,12 @@
                 android:layout_height="200dp"
                 android:scaleType="fitXY"
                 app:layout_collapseMode="parallax" />
+            <TextView
+                android:id="@+id/atrasDescRes"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:drawableLeftCompat="@drawable/ic_baseline_arrow_back_24" />
+
 
             <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
@@ -41,6 +47,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+
 
             <TextView
                 android:id="@+id/NombreResDesc"
@@ -108,29 +116,43 @@
                 android:layout_height="wrap_content"
                 android:weightSum="1.0">
 
+
                 <Button
                     android:id="@+id/MapsRest"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:layout_weight=".30"
+                    android:layout_weight=".50"
                     android:text="GMaps" />
+                <CheckBox
+                    android:id="@+id/FavResDesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:width="0dp"
+                    android:height="0dp"
+                    android:button="@drawable/selector_item"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:useMaterialThemeColors="false"
+                    tools:layout_editor_absoluteY="56dp"
+                    />
 
                 <Button
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight=".40"
+                    android:layout_weight=".60"
                     android:text="center"
-                    android:visibility="invisible" />
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/WazeRest"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
-                    android:layout_weight=".30"
+                    android:layout_weight=".50"
                     android:text="Waze" />
             </LinearLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
