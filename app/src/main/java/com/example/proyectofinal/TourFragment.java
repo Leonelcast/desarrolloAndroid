@@ -1,5 +1,8 @@
 package com.example.proyectofinal;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,11 +12,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.developer.kalert.KAlertDialog;
 import com.example.proyectofinal.adapter.TourAdapter;
 import com.example.proyectofinal.interfaces.TourService;
 import com.example.proyectofinal.interfaces.UserService;
@@ -42,6 +52,7 @@ public class TourFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    Menu menu;
 
     public TourFragment() {
         // Required empty public constructor
@@ -58,7 +69,8 @@ public class TourFragment extends Fragment {
     private List<Tour> mTour;
     private TourService mTourService;
     private Button button, ordPopcal, nombreAs, nombreDes, depAS, depDes;
-    private TourAdapter tourAdapter;
+    private TourAdapter tourAdapter = new TourAdapter(new ArrayList<>());
+    Spinner tourSpinner;
     // TODO: Rename and change types and number of parameters
     public static TourFragment newInstance(String param1, String param2) {
         TourFragment fragment = new TourFragment();
@@ -83,64 +95,64 @@ public class TourFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_tour, container, false);
-
-        button = view.findViewById(R.id.menosPopular);
-        ordPopcal= view.findViewById(R.id.maspopular);
-        nombreAs = view.findViewById(R.id.nombreOrdAs);
-        nombreDes = view.findViewById(R.id.nombreOrdDes);
-        depAS = view.findViewById(R.id.depaAs);
-        depDes = view.findViewById(R.id.depaDes);
-        depDes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                depOrdenDes(view);
-            }
-        });
-        depAS.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                depOrdenAs(view);
-            }
-        });
-        nombreDes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nombreOrdenDes(view);
-            }
-        });
-        nombreAs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nombreOrdenAs(view);
-            }
-        });
-        ordPopcal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                masPopular(view);
-            }
-        });
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                menosPopular(view);
-            }
-
-        });
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyUserPrefs", Context.MODE_PRIVATE);
+        String _id = sharedPreferences.getString("_id", "");
 
         mTourService = connection.getRetrofitInstance().create(TourService.class);
 
-       Call<List<Tour>> tourCall = mTourService.getAllTuristicos();
+       Call<List<Tour>> tourCall = mTourService.getAllTuristicos(_id);
+        tourSpinner = (Spinner) view.findViewById(R.id.idSpinnerTour);
 
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity(), R.array.option_tour, android.R.layout.simple_spinner_item);
+        tourSpinner.setAdapter(adapter);
+        tourSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(i == 1){
+                    tourAdapter.Ordenar(0);
+                }
+                if(i == 2){
+                    tourAdapter.Ordenar(1);
+                }
+                if(i == 3){
+                    tourAdapter.Ordenar(2);
+                }
+                if(i == 4){
+                    tourAdapter.Ordenar(3);
+                }
+                if(i == 5){
+                    tourAdapter.Ordenar(4);
+                }
+                if(i == 6){
+                    tourAdapter.Ordenar(5);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        KAlertDialog pDialog = new KAlertDialog(getContext(), KAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText("Loading");
+        pDialog.setCancelable(false);
+        pDialog.show();
         tourCall.enqueue(new Callback<List<Tour>>() {
             @Override
             public void onResponse(Call<List<Tour>> call, Response<List<Tour>> response) {
+
+
                 RecyclerView rvTour = (RecyclerView) view.findViewById(R.id.tourList);
-                tourAdapter = new TourAdapter(new ArrayList<>());
                 tourAdapter.reloadData(response.body());
                 rvTour.setLayoutManager(new LinearLayoutManager(getContext()));
                 rvTour.setAdapter(tourAdapter);
+
+                pDialog.dismissWithAnimation();
+
+
 
             }
 
@@ -151,124 +163,5 @@ public class TourFragment extends Fragment {
         });
         return  view;
     }
-    public void nombreOrdenDes(View view) {
-
-        Call<List<Tour>> tourCall = mTourService.getNombreDes();
-
-        tourCall.enqueue(new Callback<List<Tour>>() {
-            @Override
-            public void onResponse(Call<List<Tour>> call, Response<List<Tour>> response) {
-                tourAdapter.reloadData(response.body());
-                tourAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Tour>> call, Throwable t) {
-                System.out.print("first statement. ");
-            }
-        });
-    }
-    public void depOrdenDes(View view) {
-
-        Call<List<Tour>> tourCall = mTourService.getDepDes();
-
-        tourCall.enqueue(new Callback<List<Tour>>() {
-            @Override
-            public void onResponse(Call<List<Tour>> call, Response<List<Tour>> response) {
-                tourAdapter.reloadData(response.body());
-                tourAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Tour>> call, Throwable t) {
-                System.out.print("first statement. ");
-            }
-        });
-    }
-    public void depOrdenAs(View view) {
-
-        Call<List<Tour>> tourCall = mTourService.getDepAs();
-
-        tourCall.enqueue(new Callback<List<Tour>>() {
-            @Override
-            public void onResponse(Call<List<Tour>> call, Response<List<Tour>> response) {
-                tourAdapter.reloadData(response.body());
-                tourAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Tour>> call, Throwable t) {
-                System.out.print("first statement. ");
-            }
-        });
-    }
-    public void nombreOrdenAs(View view) {
-
-        Call<List<Tour>> tourCall = mTourService.getNombreAs();
-
-        tourCall.enqueue(new Callback<List<Tour>>() {
-            @Override
-            public void onResponse(Call<List<Tour>> call, Response<List<Tour>> response) {
-                tourAdapter.reloadData(response.body());
-                tourAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Tour>> call, Throwable t) {
-                System.out.print("first statement. ");
-            }
-        });
-    }
-    public void menosPopular(View view) {
-
-        Call<List<Tour>> tourCall = mTourService.getMenosPoupular();
-
-        tourCall.enqueue(new Callback<List<Tour>>() {
-            @Override
-            public void onResponse(Call<List<Tour>> call, Response<List<Tour>> response) {
-                tourAdapter.reloadData(response.body());
-                tourAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Tour>> call, Throwable t) {
-                System.out.print("first statement. ");
-            }
-        });
-    }
-    public void masPopular(View view) {
-
-        Call<List<Tour>> tourCall = mTourService.getAllTuristicos();
-
-        tourCall.enqueue(new Callback<List<Tour>>() {
-            @Override
-            public void onResponse(Call<List<Tour>> call, Response<List<Tour>> response) {
-                tourAdapter.reloadData(response.body());
-                tourAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Tour>> call, Throwable t) {
-                System.out.print("first statement. ");
-            }
-        });
-    }
-
-
-
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-            }
-
-
 
 }

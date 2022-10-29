@@ -19,9 +19,12 @@
     <string name="restaurantesss">restaurantesss</string>
     <string name="tours">Tours</string>
     <string name="favoritos">Favoritos</string>
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="imgtour">imgTour</string>
     <string name="menos_popular">menos popular</string>
     <string name="popular">Popular</string>
+    <string name="cerrar_sesion">Cerrar sesion</string>
+    <string name="comentar">Comentar</string>
+
 </resources>

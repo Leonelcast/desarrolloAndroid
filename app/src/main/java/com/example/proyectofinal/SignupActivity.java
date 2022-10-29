@@ -3,6 +3,7 @@ package com.example.proyectofinal;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,10 +11,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.developer.kalert.KAlertDialog;
 import com.example.proyectofinal.DTO.UserResponse;
 import com.example.proyectofinal.interfaces.UserService;
 import com.example.proyectofinal.models.User;
 import com.example.proyectofinal.retrofit.connection;
+import com.hbb20.CountryCodePicker;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -22,7 +25,8 @@ import retrofit2.Response;
 public class SignupActivity extends AppCompatActivity {
     private TextView atrasicon;
     private Button button;
-    private EditText nombretxt, apellidotxt, emailSignuptxt, nacionalidadtxt, numeroTeltxt, signupPasswordtxt, confirmPasstxt;
+    private EditText nombretxt, apellidotxt, emailSignuptxt, numeroTeltxt, signupPasswordtxt, confirmPasstxt;
+    private CountryCodePicker nacionalidadtxt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,9 +52,12 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (nombretxt.getText().toString().isEmpty() && apellidotxt.getText().toString().isEmpty() && emailSignuptxt.getText().toString().isEmpty()
-                        && nacionalidadtxt.getText().toString().isEmpty() && numeroTeltxt.getText().toString().isEmpty() && signupPasswordtxt.getText().toString().isEmpty()
+                        && nacionalidadtxt.getDefaultCountryCode().isEmpty() && numeroTeltxt.getText().toString().isEmpty() && signupPasswordtxt.getText().toString().isEmpty()
                         && confirmPasstxt.getText().toString().isEmpty()) {
-                    Toast.makeText(SignupActivity.this, "Debes llenar todos los campos", Toast.LENGTH_SHORT).show();
+                    new KAlertDialog(SignupActivity.this, KAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error...")
+                            .setContentText("Debes llenar todos los campos")
+                            .show();
                     return;
                 }
                 registrar();
@@ -65,7 +72,7 @@ public class SignupActivity extends AppCompatActivity {
         user.setNombre(nombretxt.getText().toString());
         user.setApellido(apellidotxt.getText().toString());
         user.setEmail(emailSignuptxt.getText().toString());
-        user.setNacionalidad(nacionalidadtxt.getText().toString());
+        user.setNacionalidad(nacionalidadtxt.getDefaultCountryName());
         user.setNumero(numeroTeltxt.getText().toString());
         user.setPassword(signupPasswordtxt.getText().toString());
         user.setConfirmPassword(confirmPasstxt.getText().toString());
@@ -76,16 +83,27 @@ public class SignupActivity extends AppCompatActivity {
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 UserResponse userResponse = response.body();
                 if (userResponse.ok) {
+                    KAlertDialog pDialog = new KAlertDialog(SignupActivity.this, KAlertDialog.PROGRESS_TYPE);
+                    pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                    pDialog.setTitleText("Loading");
+                    pDialog.setCancelable(false);
+                    pDialog.show();
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(intent);
                 }else{
-                    Toast.makeText(SignupActivity.this, userResponse.msg, Toast.LENGTH_SHORT).show();
+                    new KAlertDialog(SignupActivity.this, KAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error...")
+                            .setContentText(userResponse.msg)
+                            .show();
                 }
             }
 
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
-                Toast.makeText(SignupActivity.this, "No se puede establecer conexion", Toast.LENGTH_SHORT).show();
+                new KAlertDialog(SignupActivity.this, KAlertDialog.ERROR_TYPE)
+                        .setTitleText("Error...")
+                        .setContentText("Error de conexión")
+                        .show();
             }
         });
     }

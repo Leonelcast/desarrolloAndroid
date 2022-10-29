@@ -4,23 +4,54 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.132" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/drawable/atras.xml" value="0.1745" />
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/drawable/btn_primary.xml" value="0.132" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.109" />
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/drawable/ic_baseline_arrow_downward_24.xml" value="0.103" />
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/drawable/ic_baseline_arrow_upward_24.xml" value="0.103" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.137" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/drawable/ic_baseline_favorite_border_24.xml" value="0.137" />
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/drawable/ic_baseline_lock_24.xml" value="0.121" />
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/drawable/ic_baseline_restaurant_24.xml" value="0.121" />
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/drawable/ic_launcher_background.xml" value="0.132" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/drawable/selector_item.xml" value="0.137" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/activity_comment_res.xml" value="0.1" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/activity_comment_tour.xml" value="0.1" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/activity_description_res.xml" value="0.2" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/activity_fecha_fav_restaurante.xml" value="0.1" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/activity_fecha_fav_tour.xml" value="0.1" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/activity_google_maps_res.xml" value="0.25" />
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/activity_restaurant_des.xml" value="0.1" />
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/activity_signup.xml" value="0.2" />
-        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/activity_signup2.xml" value="0.1" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/activity_signup2.xml" value="0.176" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/activity_tour_desc.xml" value="0.1" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/comment_res.xml" value="0.264" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/comment_tour.xml" value="0.2" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/favsrestaurante.xml" value="0.1" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/favstour.xml" value="0.1" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/fragment_comentario_tour.xml" value="0.1" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/fragment_desc_tour.xml" value="0.1" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/fragment_fav_turistivos.xml" value="0.2635416666666667" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/fragment_favoritos.xml" value="0.1" />
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/fragment_home.xml" value="0.10989583333333333" />
-        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/fragment_profile.xml" value="0.10989583333333333" />
-        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/fragment_restaurant.xml" value="0.10989583333333333" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/fragment_profile.xml" value="0.2" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/fragment_rest_coment.xml" value="0.1" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/fragment_rest_desc.xml" value="0.2" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/fragment_restaurant.xml" value="0.1" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/fragment_restaurante_details.xml" value="0.25" />
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/fragment_tour.xml" value="0.1" />
-        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/img_restaurante.xml" value="0.1" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/img_restaurante.xml" value="0.2" />
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/layout/img_tour.xml" value="0.1" />
         <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/menu/botton_menu.xml" value="0.1" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/menu/descres_menu.xml" value="0.24895833333333334" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/menu/desctour_menu.xml" value="0.24895833333333334" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/menu/desctourmenu.xml" value="0.24895833333333334" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/menu/favres.xml" value="0.11203703703703703" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/menu/menu_filtro.xml" value="0.25" />
+        <entry key="..\:/Users/leone/AndroidStudioProjects/proyectoFinal/app/src/main/res/menu/topmenufav.xml" value="0.1" />
+        <entry key="..\:/Users/leone/AppData/Local/Android/Sdk/platforms/android-32/data/res/layout/simple_spinner_item.xml" value="0.1" />
       </map>
     </option>
   </component>
