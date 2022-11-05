@@ -1,10 +1,19 @@
 package com.example.proyectofinal.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class User {
+    @SerializedName("_id")
+    private String _id;
+    @SerializedName("nombre")
     private String nombre;
+    @SerializedName("apellido")
     private String apellido;
+    @SerializedName("email")
     private String email;
+    @SerializedName("nacionalidad")
     private String nacionalidad;
+    @SerializedName("numero")
     private String numero;
     private String password;
     private String confirmPassword;
@@ -12,6 +21,14 @@ public class User {
 
     public String getNombre() {
         return nombre;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public void setNombre(String nombre) {

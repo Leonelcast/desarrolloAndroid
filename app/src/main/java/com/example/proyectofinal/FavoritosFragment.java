@@ -1,12 +1,34 @@
 package com.example.proyectofinal;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.Spinner;
+
+import com.developer.kalert.KAlertDialog;
+import com.example.proyectofinal.DTO.RestaurantesFavGet;
+import com.example.proyectofinal.adapter.FavsRestauranteAdapter;
+import com.example.proyectofinal.interfaces.FavRestauranteService;
+import com.example.proyectofinal.retrofit.connection;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,7 +36,7 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class FavoritosFragment extends Fragment {
-
+    //
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -54,11 +76,81 @@ public class FavoritosFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    private CheckBox checkBox;
+    private List<RestaurantesFavGet> mRestaurante;
+    private FavRestauranteService mRestauranteService;
+    private FavsRestauranteAdapter restauranteAdapter = new FavsRestauranteAdapter(new ArrayList<>());
+    Spinner favoritoRestauranteSpinner;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favoritos, container, false);
+       View view = inflater.inflate(R.layout.fragment_favoritos, container, false);
+       mRestauranteService = connection.getRetrofitInstance().create(FavRestauranteService.class);
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyUserPrefs", Context.MODE_PRIVATE);
+        String _id = sharedPreferences.getString("_id", "");
+
+        //Spinner
+        favoritoRestauranteSpinner = (Spinner) view.findViewById(R.id.idSpinnerResFav);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getContext(),R.array.option_restauranteFav, android.R.layout.simple_spinner_item);
+        favoritoRestauranteSpinner.setAdapter(adapter);
+        favoritoRestauranteSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                if(position == 1){
+                    restauranteAdapter.Ordenar(0);
+                }
+                if(position == 2){
+                    restauranteAdapter.Ordenar(1);
+                } if(position == 3){
+                    restauranteAdapter.Ordenar(2);
+                }
+                if(position == 4){
+                    restauranteAdapter.Ordenar(3);
+                } if(position == 5){
+                    restauranteAdapter.Ordenar(4);
+                }if(position == 6){
+                    restauranteAdapter.Ordenar(5);
+                }
+                if(position == 7){
+                    restauranteAdapter.Ordenar(6);
+                } if(position == 8){
+                    restauranteAdapter.Ordenar(7);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        //llamada
+        KAlertDialog pDialog = new KAlertDialog(getContext(), KAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText("Loading");
+        pDialog.setCancelable(false);
+        pDialog.show();
+        Call<List<RestaurantesFavGet>> favResCall = mRestauranteService.getFavoritos(_id);
+
+        favResCall.enqueue(new Callback<List<RestaurantesFavGet>>() {
+            @Override
+            public void onResponse(Call<List<RestaurantesFavGet>> call, Response<List<RestaurantesFavGet>> response) {
+
+                RecyclerView rvRes = (RecyclerView) view.findViewById(R.id.ResFavList);
+                restauranteAdapter.reloadData(response.body());
+                rvRes.setLayoutManager(new LinearLayoutManager(getContext()));
+                rvRes.setAdapter(restauranteAdapter);
+                pDialog.dismissWithAnimation();
+            }
+
+            @Override
+            public void onFailure(Call<List<RestaurantesFavGet>> call, Throwable t) {
+                System.out.print(t);
+            }
+        });
+
+
+
+       return view;
     }
 }

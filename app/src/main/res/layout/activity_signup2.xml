@@ -40,7 +40,7 @@
         android:inputType="textEmailAddress"
         android:hint="@string/email"
         android:autofillHints="emailAddress"/>
-    <EditText
+    <com.hbb20.CountryCodePicker
         android:id="@+id/nacionalidad"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,16 +48,22 @@
         android:padding="20dp"
         android:inputType="text"
         android:hint="@string/nacionalidad"
-        android:autofillHints="name"/>
+        android:autofillHints="name"
+        app:ccp_showFullName="true"
+        app:ccp_showPhoneCode="false"
+        app:ccp_showNameCode="false"
+        app:ccp_autoDetectLanguage="true"
+        app:ccp_defaultNameCode="GT"/>
     <EditText
         android:id="@+id/numeroTel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:padding="20dp"
-        android:inputType="text"
+        android:inputType="number"
         android:hint="@string/telefono"
-        android:autofillHints="phone"/>
+        android:autofillHints="phone"
+        />
     <EditText
         android:id="@+id/signupPassword"
         android:layout_width="match_parent"
