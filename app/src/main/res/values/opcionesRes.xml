@@ -8,10 +8,6 @@
         <item>Z-A Departamento</item>
         <item>Mas popular</item>
         <item>Menos popular</item>
-        <item>5km</item>
-        <item>10km</item>
-        <item>20km</item>
-        <item>50km</item>
-        <item>100km</item>
+
     </string-array>
 </resources>

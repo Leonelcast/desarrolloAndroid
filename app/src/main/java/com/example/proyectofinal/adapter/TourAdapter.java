@@ -3,6 +3,7 @@ package com.example.proyectofinal.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -27,6 +28,7 @@ import com.example.proyectofinal.models.FavTours;
 import com.example.proyectofinal.models.Tour;
 import com.example.proyectofinal.retrofit.connection;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -38,6 +40,7 @@ import retrofit2.Response;
 public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> {
 
     private List<Tour> mTour;
+    private List<Tour> mTourEnMemoria = new ArrayList<>();
     private Context context;
     Menu menu;
 
@@ -47,6 +50,7 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> {
 
     public void reloadData(List<Tour> tours){
         this.mTour = tours;
+        this.mTourEnMemoria.addAll(tours);
         notifyDataSetChanged();
     }
 
@@ -153,6 +157,31 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> {
         });
 
     }
+    public void OrdenarDistancia(Location location, int distnaciaMaxima){
+        List<Tour> tourFiltro = new ArrayList<>();
+        mTour.clear();
+        mTour.addAll(mTourEnMemoria);
+        for (Tour tour: mTour) {
+            Location locationTour = new Location(tour.nombre);
+            locationTour.setLatitude(Double.parseDouble(tour.getLat()));
+            locationTour.setLongitude(Double.parseDouble(tour.getLongitud()));
+            Float distancia = location.distanceTo(locationTour);
+            tour.setDistancia(distancia);
+            System.out.println(distancia + tour.nombre);
+            if(distancia <= distnaciaMaxima){
+                tourFiltro.add(tour);
+            }
+        }
+        Collections.sort(tourFiltro, new Comparator<Tour>() {
+            @Override
+            public int compare(Tour distancia1, Tour distnacia2) {
+                return distancia1.getDistancia().compareTo(distnacia2.getDistancia());
+            }
+        });
+        mTour.clear();
+        mTour.addAll(tourFiltro);
+        notifyDataSetChanged();
+    }
 
     @Override
     public int getItemCount() {
@@ -209,6 +238,8 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.ViewHolder> {
      }
 
      public void Ordenar(int position){
+        mTour.clear();
+        mTour.addAll(mTourEnMemoria);
         if(position == 0){
             Collections.sort(mTour, new Comparator<Tour>() {
                 @Override

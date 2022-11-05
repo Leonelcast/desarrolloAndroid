@@ -111,7 +111,7 @@ public class RestaurantFragment extends Fragment {
     private TextView latitudUser, longitudUser;
     Location location;
     FusedLocationProviderClient client;
-    Spinner restauranteSpinner;
+    Spinner restauranteSpinner, locationSpinner;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -133,6 +133,9 @@ public class RestaurantFragment extends Fragment {
         String _id = sharedPreferences.getString("_id", "");
         t1 = view.findViewById(R.id.textoId);
         t1.setText(_id);
+        locationSpinner = (Spinner) view.findViewById(R.id.idSpinnerResLocation);
+        ArrayAdapter<CharSequence> adapterloc = ArrayAdapter.createFromResource(this.getContext(),R.array.option_km, android.R.layout.simple_spinner_item);
+        locationSpinner.setAdapter(adapterloc);
         restauranteSpinner = (Spinner) view.findViewById(R.id.idSpinnerRes);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getContext(),R.array.option_restaurante, android.R.layout.simple_spinner_item);
         restauranteSpinner.setAdapter(adapter);
@@ -164,6 +167,31 @@ public class RestaurantFragment extends Fragment {
                 System.out.print("first statement. ");
             }
         });
+        locationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                if(position == 1){
+                    restauranteAdapter.OrdenarDistancia(location,5000);
+                }
+                if(position == 2){
+                    restauranteAdapter.OrdenarDistancia(location,10000);
+                }
+                if(position == 3){
+                    restauranteAdapter.OrdenarDistancia(location,20000);
+                }
+                if(position == 4){
+                    restauranteAdapter.OrdenarDistancia(location,50000);
+                }
+                if(position == 5){
+                    restauranteAdapter.OrdenarDistancia(location,100000);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         restauranteSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
@@ -185,21 +213,6 @@ public class RestaurantFragment extends Fragment {
                 }
                 if(position == 6){
                     restauranteAdapter.Ordenar(5);
-                }
-                if(position == 7){
-                    restauranteAdapter.OrdenarDistancia(location,5000);
-                }
-                if(position == 8){
-                    restauranteAdapter.OrdenarDistancia(location,10000);
-                }
-                if(position == 9){
-                    restauranteAdapter.OrdenarDistancia(location,20000);
-                }
-                if(position == 10){
-                    restauranteAdapter.OrdenarDistancia(location,50000);
-                }
-                if(position == 11){
-                    restauranteAdapter.OrdenarDistancia(location,100000);
                 }
             }
 

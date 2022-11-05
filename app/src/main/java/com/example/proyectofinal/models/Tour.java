@@ -25,6 +25,7 @@ public class Tour {
     public Boolean favoritos;*/
     @SerializedName("favoritosTour")
     public ArrayList<FavTours> favTours;
+    public Float distancia;
     public Tour(){
 
     }
@@ -46,6 +47,14 @@ public class Tour {
 
     public void setFavTours(ArrayList<FavTours> favTours) {
         this.favTours = favTours;
+    }
+
+    public Float getDistancia() {
+        return distancia;
+    }
+
+    public void setDistancia(Float distancia) {
+        this.distancia = distancia;
     }
 
     public String getLat() {

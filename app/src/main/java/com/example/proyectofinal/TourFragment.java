@@ -108,8 +108,9 @@ public class TourFragment extends Fragment {
     private TourService mTourService;
     private Button button, ordPopcal, nombreAs, nombreDes, depAS, depDes;
     private TourAdapter tourAdapter = new TourAdapter(new ArrayList<>());
-    Spinner tourSpinner;
+    Spinner tourSpinner, locationSpinner;
     private TextView latitudUser, longitudUser;
+    Location location;
     FusedLocationProviderClient client;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -129,6 +130,9 @@ public class TourFragment extends Fragment {
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity(), R.array.option_tour, android.R.layout.simple_spinner_item);
         tourSpinner.setAdapter(adapter);
+        locationSpinner = (Spinner) view.findViewById(R.id.idSpinnerTourLocation);
+        ArrayAdapter<CharSequence> adapterLocation = ArrayAdapter.createFromResource(this.getActivity(), R.array.option_km, android.R.layout.simple_spinner_item);
+        locationSpinner.setAdapter(adapterLocation);
         tourSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -149,6 +153,31 @@ public class TourFragment extends Fragment {
                 }
                 if(i == 6){
                     tourAdapter.Ordenar(5);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        locationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                if(position == 1){
+                    tourAdapter.OrdenarDistancia(location,5000);
+                }
+                if(position == 2){
+                    tourAdapter.OrdenarDistancia(location,10000);
+                }
+                if(position == 3){
+                    tourAdapter.OrdenarDistancia(location,20000);
+                }
+                if(position == 4){
+                    tourAdapter.OrdenarDistancia(location,50000);
+                }
+                if(position == 5){
+                    tourAdapter.OrdenarDistancia(location,100000);
                 }
             }
 
@@ -208,7 +237,7 @@ public class TourFragment extends Fragment {
             client.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
                 @Override
                 public void onComplete(@NonNull Task<Location> task) {
-                    Location location = task.getResult();
+                    location = task.getResult();
                     if(location != null){
                         latitudUser.setText(String.valueOf(location.getLatitude()));
                         longitudUser.setText(String.valueOf(location.getLongitude()));
