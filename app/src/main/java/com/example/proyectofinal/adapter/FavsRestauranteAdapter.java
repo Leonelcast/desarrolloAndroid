@@ -172,6 +172,48 @@ public class FavsRestauranteAdapter extends RecyclerView.Adapter<FavsRestaurante
                     return r1.getDate().compareTo(r2.getDate());
                 }
             });
+        } if(position == 2 ){
+            Collections.sort(mRestaurante, new Comparator<RestaurantesFavGet>() {
+                @Override
+                public int compare(RestaurantesFavGet r1, RestaurantesFavGet r2) {
+                    return r1.restaurante.getNombre().compareTo(r2.restaurante.getNombre());
+                }
+            });
+        } if(position == 3){
+            Collections.sort(mRestaurante, new Comparator<RestaurantesFavGet>() {
+                @Override
+                public int compare(RestaurantesFavGet r1, RestaurantesFavGet r2) {
+                    return r2.restaurante.getNombre().compareTo(r1.restaurante.getNombre());
+                }
+            });
+        }if(position == 4){
+            Collections.sort(mRestaurante, new Comparator<RestaurantesFavGet>() {
+                @Override
+                public int compare(RestaurantesFavGet r1, RestaurantesFavGet r2) {
+                    return r1.restaurante.getDepartamento().compareTo(r2.restaurante.getDepartamento());
+                }
+            });
+        }if(position == 5){
+            Collections.sort(mRestaurante, new Comparator<RestaurantesFavGet>() {
+                @Override
+                public int compare(RestaurantesFavGet r1, RestaurantesFavGet r2) {
+                    return r2.restaurante.getDepartamento().compareTo(r1.restaurante.getDepartamento());
+                }
+            });
+        }if(position == 6){
+            Collections.sort(mRestaurante, new Comparator<RestaurantesFavGet>() {
+                @Override
+                public int compare(RestaurantesFavGet r1, RestaurantesFavGet r2) {
+                    return r1.restaurante.getCalificacion().compareTo(r2.restaurante.getCalificacion());
+                }
+            });
+        }if(position == 7){
+            Collections.sort(mRestaurante, new Comparator<RestaurantesFavGet>() {
+                @Override
+                public int compare(RestaurantesFavGet r1, RestaurantesFavGet r2) {
+                    return r2.restaurante.getCalificacion().compareTo(r1.restaurante.getCalificacion());
+                }
+            });
         }
         notifyDataSetChanged();
     }

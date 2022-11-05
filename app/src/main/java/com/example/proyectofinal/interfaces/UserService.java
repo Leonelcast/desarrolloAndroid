@@ -20,4 +20,8 @@ public interface UserService {
 
     @PUT("api/usuarios/{updateId}")
     Call<UserResponse> updateuser(@Path("updateId") String updateId, @Body User user);
+
+    @PUT("api/usuarios/cambioPassword/{updateId}")
+    Call<UserResponse> updateuserPassword(@Path("updateId") String updateId, @Body User user);
+
 }

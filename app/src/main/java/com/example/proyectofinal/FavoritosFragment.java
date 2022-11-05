@@ -102,6 +102,20 @@ public class FavoritosFragment extends Fragment {
                 }
                 if(position == 2){
                     restauranteAdapter.Ordenar(1);
+                } if(position == 3){
+                    restauranteAdapter.Ordenar(2);
+                }
+                if(position == 4){
+                    restauranteAdapter.Ordenar(3);
+                } if(position == 5){
+                    restauranteAdapter.Ordenar(4);
+                }if(position == 6){
+                    restauranteAdapter.Ordenar(5);
+                }
+                if(position == 7){
+                    restauranteAdapter.Ordenar(6);
+                } if(position == 8){
+                    restauranteAdapter.Ordenar(7);
                 }
             }
 

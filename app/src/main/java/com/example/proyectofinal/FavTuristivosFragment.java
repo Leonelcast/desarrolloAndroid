@@ -104,6 +104,24 @@ public class FavTuristivosFragment extends Fragment {
                 if(position == 2){
                     tourAdapter.Ordenar(1);
                 }
+                if(position == 3){
+                    tourAdapter.Ordenar(2);
+                }
+                if(position == 4){
+                    tourAdapter.Ordenar(3);
+                }
+                if(position == 5){
+                    tourAdapter.Ordenar(4);
+                }
+                if(position == 6){
+                    tourAdapter.Ordenar(5);
+                }
+                if(position == 7){
+                    tourAdapter.Ordenar(6);
+                }
+                if(position == 8){
+                    tourAdapter.Ordenar(7);
+                }
             }
 
             @Override

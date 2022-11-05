@@ -158,6 +158,50 @@ public class FavsTourAdapter extends RecyclerView.Adapter<FavsTourAdapter.ViewHo
                     return r1.getDate().compareTo(r2.getDate());
                 }
             });
+        } if(position == 2){
+            Collections.sort(mTours, new Comparator<TourFavGet>() {
+                @Override
+                public int compare(TourFavGet r1, TourFavGet r2) {
+                    return r1.tour.getNombre().compareTo(r2.tour.getNombre());
+                }
+            });
+        }if(position == 3){
+            Collections.sort(mTours, new Comparator<TourFavGet>() {
+                @Override
+                public int compare(TourFavGet r1, TourFavGet r2) {
+                    return r2.tour.getNombre().compareTo(r1.tour.getNombre());
+                }
+            });
+        }
+        if(position == 4){
+            Collections.sort(mTours, new Comparator<TourFavGet>() {
+                @Override
+                public int compare(TourFavGet r1, TourFavGet r2) {
+                    return r1.tour.getDepartamento().compareTo(r2.tour.getDepartamento());
+                }
+            });
+        }if(position == 5){
+            Collections.sort(mTours, new Comparator<TourFavGet>() {
+                @Override
+                public int compare(TourFavGet r1, TourFavGet r2) {
+                    return r2.tour.getDepartamento().compareTo(r1.tour.getDepartamento());
+                }
+            });
+        }
+        if(position == 6){
+            Collections.sort(mTours, new Comparator<TourFavGet>() {
+                @Override
+                public int compare(TourFavGet r1, TourFavGet r2) {
+                    return r1.tour.getCalificacion().compareTo(r2.tour.getCalificacion());
+                }
+            });
+        }if(position == 7){
+            Collections.sort(mTours, new Comparator<TourFavGet>() {
+                @Override
+                public int compare(TourFavGet r1, TourFavGet r2) {
+                    return r2.tour.getCalificacion().compareTo(r1.tour.getCalificacion());
+                }
+            });
         }
         notifyDataSetChanged();
     }

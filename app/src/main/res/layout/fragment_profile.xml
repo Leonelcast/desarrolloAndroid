@@ -68,6 +68,13 @@
         android:text="Actualizar informacion"
         android:textSize="15sp"
         tools:ignore="SmallSp"/>
+    <Button
+        android:id="@+id/updatePass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cambiar contraseña"
+        android:textSize="15sp"
+        tools:ignore="SmallSp"/>
 
 
 </LinearLayout>

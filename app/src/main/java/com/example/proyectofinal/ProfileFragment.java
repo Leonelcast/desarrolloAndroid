@@ -70,7 +70,7 @@ public class ProfileFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    private Button button, buttonUpdate;
+    private Button button, buttonUpdate, passwordIntent;
     private EditText nombretxt, apellidotxt, emailtxt, nacionalidadtxt, telefonotxt;
     SharedPreferences sharedPreferences;
     @Override
@@ -97,6 +97,14 @@ public class ProfileFragment extends Fragment {
         nacionalidadtxt.setText(nacionalidad);
         telefonotxt = view.findViewById(R.id.numeroTelUser);
         telefonotxt.setText(numero);
+        passwordIntent = view.findViewById(R.id.updatePass);
+        passwordIntent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ChangePasswordActivity.class);
+                startActivity(intent);
+            }
+        });
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

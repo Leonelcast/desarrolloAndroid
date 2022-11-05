@@ -26,5 +26,6 @@
     <string name="popular">Popular</string>
     <string name="cerrar_sesion">Cerrar sesion</string>
     <string name="comentar">Comentar</string>
+    <string name="ingresa_una_nueva_contrase_a">Ingresa una nueva contraseña</string>
 
 </resources>
