@@ -12,6 +12,21 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp" />
+    <TextView
+        android:id="@+id/latitudUserTour"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/longitudUserTour"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@id/idSpinnerTour"
+        tools:layout_editor_absoluteX="28dp" />
+
+    <TextView
+        android:id="@+id/longitudUserTour"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/tourList"
+        tools:layout_editor_absoluteX="28dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/tourList"

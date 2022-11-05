@@ -26,6 +26,7 @@ public class Restaurante {
     @SerializedName("favoritosRest")
     public ArrayList<FavRestaurantes> favRestaurantes;
 
+    public Float distancia;
 
 
     public Restaurante(){
@@ -45,6 +46,14 @@ public class Restaurante {
 
     public ArrayList<FavRestaurantes> getFavRestaurantes() {
         return favRestaurantes;
+    }
+
+    public Float getDistancia() {
+        return distancia;
+    }
+
+    public void setDistancia(Float distancia) {
+        this.distancia = distancia;
     }
 
     public void setFavRestaurantes(ArrayList<FavRestaurantes> favRestaurantes) {

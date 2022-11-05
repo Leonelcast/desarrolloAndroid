@@ -1,9 +1,12 @@
 package com.example.proyectofinal.adapter;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -15,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -30,7 +34,9 @@ import com.example.proyectofinal.interfaces.FavRestauranteService;
 import com.example.proyectofinal.models.FavRestaurantes;
 import com.example.proyectofinal.models.Restaurante;
 import com.example.proyectofinal.retrofit.connection;
+import com.google.android.gms.location.FusedLocationProviderClient;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -41,6 +47,7 @@ import retrofit2.Response;
 
 public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.ViewHolder> {
     private List<Restaurante> mRestaurante;
+    private List<Restaurante> mRestauranteEnMemoria = new ArrayList<>();
     private Context context;
     Menu menu;
 
@@ -48,6 +55,7 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
 
     public void reloadData(List<Restaurante> restaurantes){
         this.mRestaurante = restaurantes;
+        this.mRestauranteEnMemoria.addAll(restaurantes);
         notifyDataSetChanged();
     }
 
@@ -98,6 +106,7 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
         }else{
             favRes.setChecked(true);
         }
+
         SharedPreferences sharedPreferences = context.getSharedPreferences("MyUserPrefs", Context.MODE_PRIVATE);
         String _id = sharedPreferences.getString("_id", "");
 
@@ -160,6 +169,34 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
         });
 
     }
+    public void OrdenarDistancia(Location location, int distanciaMaxima){
+        List<Restaurante> restaurantesFiltro = new ArrayList<>();
+        mRestaurante.clear();
+        mRestaurante.addAll(mRestauranteEnMemoria);
+
+        for (Restaurante restaurante: mRestaurante) {
+            Location locationRestaurante = new Location(restaurante.nombre);
+            locationRestaurante.setLatitude(Double.parseDouble(restaurante.getLat()));
+            locationRestaurante.setLongitude(Double.parseDouble(restaurante.getLongitud()));
+            Float distancia = location.distanceTo(locationRestaurante);
+            restaurante.setDistancia(distancia);
+            System.out.println(distancia+ restaurante.nombre);
+            if(distancia <= distanciaMaxima){
+                restaurantesFiltro.add(restaurante);
+            }
+
+        }
+        Collections.sort(restaurantesFiltro, new Comparator<Restaurante>() {
+            @Override
+            public int compare(Restaurante distnacia1, Restaurante distancia2) {
+                return distnacia1.getDistancia().compareTo(distancia2.getDistancia());
+            }
+        });
+
+        mRestaurante.clear();
+        mRestaurante.addAll(restaurantesFiltro);
+        notifyDataSetChanged();
+    }
 
     @Override
     public int getItemCount() {
@@ -180,6 +217,7 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
         private CheckBox mFavoritosRes;
         private Button mButton;
         private TextView mFavoritosRestaurantes;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -218,6 +256,8 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
     }
 
     public void Ordenar(int position){
+        mRestaurante.clear();
+        mRestaurante.addAll(mRestauranteEnMemoria);
         if(position == 0){
             Collections.sort(mRestaurante, new Comparator<Restaurante>() {
                 @Override
@@ -260,7 +300,24 @@ public class RestauranteAdapter extends RecyclerView.Adapter<RestauranteAdapter.
                     return r1.getCalificacion().compareTo(r2.getCalificacion());
                 }
             });
+        }if(position == 6){
+
+            System.out.println("5km");
+
+        }
+        if(position == 7){
+            Toast.makeText(context, "10km", Toast.LENGTH_LONG);
+        }
+        if(position == 8){
+            Toast.makeText(context, "20km", Toast.LENGTH_LONG);
+        }
+        if(position == 9){
+            Toast.makeText(context, "50km", Toast.LENGTH_LONG);
+        }
+        if(position == 10){
+            Toast.makeText(context, "100km", Toast.LENGTH_LONG);
         }
         notifyDataSetChanged();
     }
+
 }

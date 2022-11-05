@@ -1,15 +1,24 @@
 package com.example.proyectofinal;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Looper;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,6 +38,14 @@ import com.example.proyectofinal.adapter.RestauranteAdapter;
 import com.example.proyectofinal.interfaces.RestauranteService;
 import com.example.proyectofinal.models.Restaurante;
 import com.example.proyectofinal.retrofit.connection;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -91,6 +108,9 @@ public class RestaurantFragment extends Fragment {
     private RestauranteService mRestauranteService;
     private Button button, ordPopcal, nombreAs, nombreDes, depAS, depDes;
     private RestauranteAdapter restauranteAdapter = new RestauranteAdapter(new ArrayList<>());
+    private TextView latitudUser, longitudUser;
+    Location location;
+    FusedLocationProviderClient client;
     Spinner restauranteSpinner;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -105,6 +125,9 @@ public class RestaurantFragment extends Fragment {
         pDialog.setTitleText("Loading");
         pDialog.setCancelable(false);
         pDialog.show();
+        latitudUser = view.findViewById(R.id.latitudUser);
+        longitudUser = view.findViewById(R.id.longitudUser);
+        client = LocationServices.getFusedLocationProviderClient(getActivity());
 
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyUserPrefs", Context.MODE_PRIVATE);
         String _id = sharedPreferences.getString("_id", "");
@@ -127,6 +150,12 @@ public class RestaurantFragment extends Fragment {
                 rvRes.setLayoutManager(new LinearLayoutManager(getContext()));
                 rvRes.setAdapter(restauranteAdapter);
                 pDialog.dismissWithAnimation();
+                if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+                    getCurrentLocation();
+                }else{
+                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
+                }
+
 
             }
 
@@ -157,6 +186,21 @@ public class RestaurantFragment extends Fragment {
                 if(position == 6){
                     restauranteAdapter.Ordenar(5);
                 }
+                if(position == 7){
+                    restauranteAdapter.OrdenarDistancia(location,5000);
+                }
+                if(position == 8){
+                    restauranteAdapter.OrdenarDistancia(location,10000);
+                }
+                if(position == 9){
+                    restauranteAdapter.OrdenarDistancia(location,20000);
+                }
+                if(position == 10){
+                    restauranteAdapter.OrdenarDistancia(location,50000);
+                }
+                if(position == 11){
+                    restauranteAdapter.OrdenarDistancia(location,100000);
+                }
             }
 
 
@@ -169,6 +213,54 @@ public class RestaurantFragment extends Fragment {
 
         return  view;
 
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == 100 && (grantResults.length > 0) && (grantResults[0] + grantResults[1] == PackageManager.PERMISSION_GRANTED)){
+            getCurrentLocation();
+        }else {
+            Toast.makeText(getActivity(), "Permision denied", Toast.LENGTH_LONG);
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private void getCurrentLocation() {
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)|| locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
+            client.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+                @Override
+                public void onComplete(@NonNull Task<Location> task) {
+                    location = task.getResult();
+                    if(location != null){
+                        latitudUser.setText(String.valueOf(location.getLatitude()));
+                        longitudUser.setText(String.valueOf(location.getLongitude()));
+
+                    }else {
+                       LocationRequest locationRequest = new LocationRequest()
+                                .setInterval(10000)
+                                .setFastestInterval(1000)
+                                .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
+                                .setNumUpdates(1);
+
+                        LocationCallback locationCallback = new LocationCallback() {
+                            @Override
+                            public void onLocationResult(@NonNull LocationResult locationResult) {
+                                super.onLocationResult(locationResult);
+                                Location location1 = locationResult.getLastLocation();
+                                latitudUser.setText(String.valueOf(location1.getLatitude()));
+                                longitudUser.setText(String.valueOf(location1.getLongitude()));
+                            }
+                        };
+                        client.requestLocationUpdates(locationRequest,locationCallback, Looper.myLooper());
+                    }
+                }
+            });
+        }else{
+            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        }
     }
 
 }
